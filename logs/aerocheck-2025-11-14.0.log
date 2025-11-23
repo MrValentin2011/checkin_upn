@@ -1,0 +1,51 @@
+2025-11-14 00:11:24.242 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-14 00:11:24.585 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 50612546-d5bd-4bbd-8952-3ac006c0532c
+2025-11-14 00:11:24.587 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-14 00:11:24.587 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-14 00:11:24.873 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-14 00:11:50.104 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763097091872, PassengerID=2
+2025-11-14 00:11:50.112 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 14: false
+2025-11-14 00:11:53.323 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 14: false
+2025-11-14 00:11:53.323 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-14 00:11:53.326 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-14 00:11:53.326 [AWT-EventQueue-0] ERROR service.impl.CheckInService - No hay asientos disponibles para vuelo: 2
+2025-11-14 00:14:48.594 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-14 00:14:48.941 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: b90805db-785f-4bc7-a638-712dde8b2763
+2025-11-14 00:14:48.942 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-14 00:14:48.943 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-14 00:14:49.215 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-14 00:15:10.016 [AWT-EventQueue-0] WARN  service.impl.CheckInService - Reservación no encontrada para PNR: PNR1763097247501
+2025-11-14 00:15:35.171 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763097325462, PassengerID=1
+2025-11-14 00:15:35.174 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 15: false
+2025-11-14 00:15:38.842 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 15: false
+2025-11-14 00:15:38.842 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-14 00:15:38.847 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 3: 142
+2025-11-14 00:15:38.851 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 65 asignado exitosamente a reservación: 15
+2025-11-14 00:15:38.851 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 65 asignado manualmente a reservación: 15
+2025-11-14 00:15:38.857 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Intentando insertar check-in: ReservationID=15, AgentID=2, SeatID=65, BoardingCode=BP-PNR1763097325462-1763097338851
+2025-11-14 00:15:38.861 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 11, ReservationID: 15
+2025-11-14 00:15:39.109 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in completado exitosamente: CheckInID=11, ReservationID=15
+2025-11-14 00:15:53.150 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 15: true
+2025-11-14 00:16:11.720 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763097325462, PassengerID=1
+2025-11-14 00:16:11.721 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 15: true
+2025-11-14 00:17:55.619 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-14 00:17:55.965 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: a046d7de-dee7-4142-a1bc-dbd66a8de041
+2025-11-14 00:17:55.967 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-14 00:17:55.967 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-14 00:17:56.249 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-14 00:28:08.540 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-14 00:28:08.893 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 2010cfa2-4440-4f92-9a83-a46d8ee1448e
+2025-11-14 00:28:08.895 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-14 00:28:08.895 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-14 00:28:09.179 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-14 00:28:33.213 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763098103875, PassengerID=1
+2025-11-14 00:28:33.222 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 16: false
+2025-11-14 00:28:36.184 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 16: false
+2025-11-14 00:28:36.184 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-14 00:28:36.195 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 1: 2
+2025-11-14 00:28:36.199 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 4 asignado exitosamente a reservación: 16
+2025-11-14 00:28:36.200 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 4 asignado manualmente a reservación: 16
+2025-11-14 00:28:36.204 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Intentando insertar check-in: ReservationID=16, AgentID=2, SeatID=4, BoardingCode=BP-PNR1763098103875-1763098116201
+2025-11-14 00:28:36.209 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 12, ReservationID: 16
+2025-11-14 00:28:36.451 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in completado exitosamente: CheckInID=12, ReservationID=16
+2025-11-14 00:28:41.063 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 16: true

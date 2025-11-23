@@ -1,0 +1,28 @@
+2025-11-13 21:49:25.871 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 21:54:16.971 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 21:59:59.058 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:02:43.838 | USER_ID=2 | ACTION=ACCESS_DENIED | DETAILS=Operation=LOGIN | Reason=Fuera de horario
+2025-11-13 22:04:29.072 | USER_ID=2 | ACTION=ACCESS_DENIED | DETAILS=Operation=LOGIN | Reason=Fuera de horario
+2025-11-13 22:04:53.837 | USER_ID=2 | ACTION=ACCESS_DENIED | DETAILS=Operation=LOGIN | Reason=Fuera de horario
+2025-11-13 22:06:05.200 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:06:57.879 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=No hay asientos disponibles
+2025-11-13 22:13:08.881 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=No hay asientos disponibles
+2025-11-13 22:13:20.667 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=No hay asientos disponibles
+2025-11-13 22:14:13.701 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:14:46.218 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=Error al registrar check-in
+2025-11-13 22:23:14.067 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:36:08.908 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:37:20.857 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:38:37.334 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:42:18.134 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:42:48.701 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=Error al registrar check-in
+2025-11-13 22:52:37.357 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:53:15.029 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=Error al registrar check-in
+2025-11-13 22:57:59.355 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 22:58:16.078 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=Error al registrar check-in
+2025-11-13 23:00:31.014 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 23:01:45.881 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=No hay asientos disponibles
+2025-11-13 23:02:25.009 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=Error al registrar check-in
+2025-11-13 23:03:36.222 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 23:04:28.179 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-11-13 23:04:47.332 | USER_ID=2 | ACTION=ERROR_CHECK_IN | DETAILS=Error al registrar check-in

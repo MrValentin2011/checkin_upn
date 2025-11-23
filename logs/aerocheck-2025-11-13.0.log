@@ -1,0 +1,308 @@
+2025-11-13 21:49:25.235 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 21:49:25.579 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 9692f1a8-d4d7-4e02-b954-3f470af78f21
+2025-11-13 21:49:25.580 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 21:49:25.581 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 21:49:25.871 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 21:54:16.356 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 21:54:16.690 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 718c21d8-b3f9-48b5-8d48-5baaeba8b333
+2025-11-13 21:54:16.692 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 21:54:16.692 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 21:54:16.971 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 21:59:58.455 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 21:59:58.783 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: bc23f929-2b88-4dc6-98ae-41f2e496526b
+2025-11-13 21:59:58.786 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 21:59:58.786 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 21:59:59.058 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:02:43.429 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:02:43.789 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: d2a006e9-e1ec-4409-8f3a-a734bb716fd0
+2025-11-13 22:02:43.791 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:02:43.791 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:02:43.838 [AWT-EventQueue-0] WARN  service.impl.AuthService - Intento de login fuera de horario para usuario: admin
+2025-11-13 22:02:43.839 [AWT-EventQueue-0] ERROR service.impl.AuthService - Error en autenticación
+java.lang.Exception: Acceso fuera del horario laboral (0:00 - 22:00)
+	at service.impl.AuthService.login(AuthService.java:59)
+	at ui.panels.LoginPanel.login(LoginPanel.java:112)
+	at ui.panels.LoginPanel.lambda$0(LoginPanel.java:92)
+	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
+	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
+	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6621)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3398)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6386)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4996)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:98)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:747)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:744)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+2025-11-13 22:04:28.612 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:04:29.023 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: b920a0b4-77ba-438c-92d9-14362c16c08a
+2025-11-13 22:04:29.025 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:04:29.025 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:04:29.072 [AWT-EventQueue-0] WARN  service.impl.AuthService - Intento de login fuera de horario para usuario: admin
+2025-11-13 22:04:29.073 [AWT-EventQueue-0] ERROR service.impl.AuthService - Error en autenticación
+java.lang.Exception: Acceso fuera del horario laboral (0:00 - 22:00)
+	at service.impl.AuthService.login(AuthService.java:58)
+	at ui.panels.LoginPanel.login(LoginPanel.java:112)
+	at ui.panels.LoginPanel.lambda$0(LoginPanel.java:92)
+	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
+	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
+	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6621)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3398)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6386)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4996)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:98)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:747)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:744)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+2025-11-13 22:04:53.460 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:04:53.792 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 824d2bff-961d-4bc8-8c9e-d8daec554b51
+2025-11-13 22:04:53.794 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:04:53.794 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:04:53.838 [AWT-EventQueue-0] WARN  service.impl.AuthService - Intento de login fuera de horario para usuario: admin
+2025-11-13 22:04:53.838 [AWT-EventQueue-0] ERROR service.impl.AuthService - Error en autenticación
+java.lang.Exception: Acceso fuera del horario laboral (0:00 - 22:00)
+	at service.impl.AuthService.login(AuthService.java:58)
+	at ui.panels.LoginPanel.login(LoginPanel.java:112)
+	at ui.panels.LoginPanel.lambda$0(LoginPanel.java:92)
+	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
+	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
+	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6621)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3398)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6386)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4996)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:98)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:747)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:744)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+2025-11-13 22:06:04.580 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:06:04.909 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 82f3f2ae-50c4-4e2c-8724-172a3ee07878
+2025-11-13 22:06:04.911 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:06:04.911 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:06:05.200 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:06:23.611 [AWT-EventQueue-0] WARN  service.impl.CheckInService - Reservación no encontrada para PNR: PNR005
+2025-11-13 22:06:54.187 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR005, PassengerID=2
+2025-11-13 22:06:54.191 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 5: false
+2025-11-13 22:06:57.872 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 5: false
+2025-11-13 22:06:57.873 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 22:06:57.877 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 22:06:57.878 [AWT-EventQueue-0] ERROR service.impl.CheckInService - No hay asientos disponibles para vuelo: 2
+2025-11-13 22:07:00.960 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 22:07:02.352 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 22:07:02.352 [AWT-EventQueue-0] ERROR service.impl.CheckInService - No hay asientos disponibles para vuelo: 2
+2025-11-13 22:13:05.532 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR005, PassengerID=2
+2025-11-13 22:13:05.536 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 5: false
+2025-11-13 22:13:08.872 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 5: false
+2025-11-13 22:13:08.872 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 22:13:08.877 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 22:13:08.877 [AWT-EventQueue-0] ERROR service.impl.CheckInService - No hay asientos disponibles para vuelo: 2
+2025-11-13 22:13:10.716 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 22:13:12.182 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 22:13:12.182 [AWT-EventQueue-0] ERROR service.impl.CheckInService - No hay asientos disponibles para vuelo: 2
+2025-11-13 22:13:13.729 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 22:13:15.236 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 22:13:15.236 [AWT-EventQueue-0] ERROR service.impl.CheckInService - No hay asientos disponibles para vuelo: 2
+2025-11-13 22:13:17.037 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 22:13:20.657 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 5: false
+2025-11-13 22:13:20.658 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 22:13:20.660 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 22:13:20.660 [AWT-EventQueue-0] ERROR service.impl.CheckInService - No hay asientos disponibles para vuelo: 2
+2025-11-13 22:14:12.992 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:14:13.401 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: e4032cdb-2db5-4958-859c-d9e6f57e8eb7
+2025-11-13 22:14:13.403 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:14:13.403 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:14:13.702 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:14:39.281 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR005, PassengerID=2
+2025-11-13 22:14:39.285 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 5: false
+2025-11-13 22:14:46.192 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 5: false
+2025-11-13 22:14:46.192 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 22:14:46.199 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 4: 39
+2025-11-13 22:14:46.203 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 189 asignado exitosamente a reservación: 5
+2025-11-13 22:14:46.203 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 189 asignado manualmente a reservación: 5
+2025-11-13 22:14:46.214 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 0, ReservationID: 5
+2025-11-13 22:15:13.086 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR005, PassengerID=2
+2025-11-13 22:15:13.088 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 5: true
+2025-11-13 22:23:13.403 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:23:13.774 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 4af94fba-fbdb-4a32-9377-fbb8f95e4435
+2025-11-13 22:23:13.776 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:23:13.776 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:23:14.067 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:25:14.392 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR005, PassengerID=2
+2025-11-13 22:25:14.397 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 5: true
+2025-11-13 22:36:08.271 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:36:08.627 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: e78f57e2-262f-43b3-99f7-9d0ff6f959f2
+2025-11-13 22:36:08.628 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:36:08.628 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:36:08.909 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:37:20.212 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:37:20.568 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: f8c7b7e7-990d-4503-a4ec-3adbfe02db6d
+2025-11-13 22:37:20.570 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:37:20.571 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:37:20.858 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:38:36.700 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:38:37.055 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: c71760e8-a385-4062-922f-d0b528fd22ef
+2025-11-13 22:38:37.056 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:38:37.056 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:38:37.335 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:38:40.353 [AWT-EventQueue-0] WARN  service.impl.CheckInService - Reservación no encontrada para PNR: PNR1763091211276
+2025-11-13 22:42:17.510 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:42:17.848 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 86557793-a7e0-414d-a3e0-9100fb737d11
+2025-11-13 22:42:17.849 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:42:17.850 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:42:18.134 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:42:40.890 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR006, PassengerID=1
+2025-11-13 22:42:41.115 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 9: false
+2025-11-13 22:42:44.465 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 3: 147
+2025-11-13 22:42:44.468 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 60 asignado exitosamente a reservación: 9
+2025-11-13 22:42:44.469 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 60 asignado manualmente a reservación: 9
+2025-11-13 22:42:46.202 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 9: false
+2025-11-13 22:42:48.677 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 9: false
+2025-11-13 22:42:48.678 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 22:42:48.683 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 3: 146
+2025-11-13 22:42:48.692 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 61 asignado exitosamente a reservación: 9
+2025-11-13 22:42:48.693 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 61 asignado manualmente a reservación: 9
+2025-11-13 22:42:48.698 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 0, ReservationID: 9
+2025-11-13 22:52:36.680 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:52:37.054 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: c986158d-5edc-45d5-b38f-91be9fbec0c5
+2025-11-13 22:52:37.054 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:52:37.055 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:52:37.357 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:53:10.988 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763092363416, PassengerID=2
+2025-11-13 22:53:10.991 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 10: false
+2025-11-13 22:53:14.998 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 10: false
+2025-11-13 22:53:14.999 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 22:53:15.011 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 3: 145
+2025-11-13 22:53:15.017 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 62 asignado exitosamente a reservación: 10
+2025-11-13 22:53:15.018 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 62 asignado manualmente a reservación: 10
+2025-11-13 22:53:15.025 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 0, ReservationID: 10
+2025-11-13 22:57:58.734 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 22:57:59.074 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 6c20e7ab-aacd-4936-91f8-3193c4ee7406
+2025-11-13 22:57:59.075 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 22:57:59.076 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 22:57:59.356 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 22:58:12.748 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763092684697, PassengerID=2
+2025-11-13 22:58:12.757 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 11: false
+2025-11-13 22:58:16.055 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 11: false
+2025-11-13 22:58:16.055 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 22:58:16.065 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 1: 3
+2025-11-13 22:58:16.068 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 2 asignado exitosamente a reservación: 11
+2025-11-13 22:58:16.069 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 2 asignado manualmente a reservación: 11
+2025-11-13 22:58:16.076 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 0, ReservationID: 11
+2025-11-13 23:00:30.338 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 23:00:30.718 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 779e7ac8-6001-45db-b94e-771561c11db3
+2025-11-13 23:00:30.720 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 23:00:30.720 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 23:00:31.014 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 23:01:43.043 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763092894723, PassengerID=1
+2025-11-13 23:01:43.047 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 12: false
+2025-11-13 23:01:45.868 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 12: false
+2025-11-13 23:01:45.868 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 23:01:45.878 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 2: 0
+2025-11-13 23:01:45.878 [AWT-EventQueue-0] ERROR service.impl.CheckInService - No hay asientos disponibles para vuelo: 2
+2025-11-13 23:02:21.646 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763092894723, PassengerID=1
+2025-11-13 23:02:21.649 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 12: false
+2025-11-13 23:02:24.973 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 12: false
+2025-11-13 23:02:24.973 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 23:02:24.987 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 3: 144
+2025-11-13 23:02:24.994 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 63 asignado exitosamente a reservación: 12
+2025-11-13 23:02:24.995 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 63 asignado manualmente a reservación: 12
+2025-11-13 23:02:25.006 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 0, ReservationID: 12
+2025-11-13 23:03:35.588 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 23:03:35.941 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 7bca0ae4-7921-45aa-8723-80b7b8b2750e
+2025-11-13 23:03:35.942 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 23:03:35.943 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 23:03:36.223 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 23:04:10.734 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763092894723, PassengerID=1
+2025-11-13 23:04:10.738 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 12: true
+2025-11-13 23:04:27.564 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-13 23:04:27.897 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 56e3dce0-a3c2-4ba8-9460-672fc1f9edd2
+2025-11-13 23:04:27.899 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-13 23:04:27.899 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-13 23:04:28.179 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-13 23:04:42.226 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763093075235, PassengerID=1
+2025-11-13 23:04:42.230 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 13: false
+2025-11-13 23:04:47.300 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 13: false
+2025-11-13 23:04:47.301 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-13 23:04:47.315 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos disponibles para vuelo 3: 143
+2025-11-13 23:04:47.320 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 64 asignado exitosamente a reservación: 13
+2025-11-13 23:04:47.321 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 64 asignado manualmente a reservación: 13
+2025-11-13 23:04:47.323 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Intentando insertar check-in: ReservationID=13, AgentID=2, SeatID=64, BoardingCode=BP-PNR1763093075235-1763093087321
+2025-11-13 23:04:47.328 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 0, ReservationID: 13
+2025-11-13 23:04:47.330 [AWT-EventQueue-0] ERROR service.impl.CheckInService - Insert retornó: 0
+2025-11-13 23:04:54.482 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763093075235, PassengerID=1
+2025-11-13 23:04:54.484 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 13: true
+2025-11-13 23:05:13.936 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763093075235, PassengerID=1
+2025-11-13 23:05:13.938 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 13: true
