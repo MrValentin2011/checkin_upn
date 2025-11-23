@@ -59,6 +59,37 @@ public class ConfigService {
     }
 
     /**
+     * Inserta un nuevo parámetro de configuración.
+     */
+    public boolean insertParametro(String nombre, String valor) {
+        try {
+            ConfigParameter p = new ConfigParameter();
+            p.setName(nombre);
+            p.setValue(valor);
+            boolean ok = dao.insert(p);
+            if (ok) logger.info("Parámetro insertado: {} = {}", nombre, valor);
+            return ok;
+        } catch (Exception e) {
+            logger.error("Error al insertar parámetro: {}", nombre, e);
+            return false;
+        }
+    }
+
+    /**
+     * Elimina un parámetro por nombre.
+     */
+    public boolean deleteParametro(String nombre) {
+        try {
+            boolean ok = dao.deleteByName(nombre);
+            if (ok) logger.info("Parámetro eliminado: {}", nombre);
+            return ok;
+        } catch (Exception e) {
+            logger.error("Error al eliminar parámetro: {}", nombre, e);
+            return false;
+        }
+    }
+
+    /**
      * Obtiene el valor de un parámetro; si no existe devuelve el valor por defecto.
      */
     public String getParameterValue(String name, String defaultValue) {
@@ -69,5 +100,31 @@ public class ConfigService {
             logger.error("Error al obtener parámetro: {}", name, e);
         }
         return defaultValue;
+    }
+
+    /**
+     * Retorna el parámetro completo si existe, o null.
+     */
+    public ConfigParameter findByNameSafe(String name) {
+        try {
+            return dao.findByName(name);
+        } catch (Exception e) {
+            logger.error("Error buscando parámetro: {}", name, e);
+            return null;
+        }
+    }
+
+    /**
+     * Lee un parámetro como double, devolviendo un valor por defecto si no existe o no es numérico.
+     */
+    public double getParameterDouble(String name, double defaultValue) {
+        String v = getParameterValue(name, null);
+        if (v == null) return defaultValue;
+        try {
+            return Double.parseDouble(v);
+        } catch (NumberFormatException ex) {
+            logger.warn("Valor de parámetro no numérico para {}: {} -> usando default {}", name, v, defaultValue);
+            return defaultValue;
+        }
     }
 }

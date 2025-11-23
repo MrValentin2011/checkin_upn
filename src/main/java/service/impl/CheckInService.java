@@ -219,10 +219,10 @@ public class CheckInService {
             double totalBaggageCharge = 0.0;
             if (baggageList != null && !baggageList.isEmpty()) {
                 BaggageDao baggageDao = new BaggageDao();
-                // Leer tarifas desde configuración
+                // Leer tarifas desde configuración (uso seguro de parseo)
                 ConfigService cfg = ConfigService.getInstance();
-                double pricePerKg = Double.parseDouble(cfg.getParameterValue("baggage.price.perKg", "5.0"));
-                double pricePerPiece = Double.parseDouble(cfg.getParameterValue("baggage.price.perPiece", "10.0"));
+                double pricePerKg = cfg.getParameterDouble("baggage.price.perKg", 5.0);
+                double pricePerPiece = cfg.getParameterDouble("baggage.price.perPiece", 10.0);
 
                 for (Baggage b : baggageList) {
                     b.setCheckInId(checkinId);

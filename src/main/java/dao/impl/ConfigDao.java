@@ -66,7 +66,9 @@ public class ConfigDao {
 
             ps.setString(1, value);
             ps.setString(2, keyName);
-            return ps.executeUpdate() > 0;
+            int updated = ps.executeUpdate();
+            conn.commit();
+            return updated > 0;
 
         } catch (SQLException e) {
             System.err.println("Error al actualizar configuración: " + e.getMessage());
@@ -83,10 +85,28 @@ public class ConfigDao {
 
             ps.setString(1, config.getName());
             ps.setString(2, config.getValue());
-            return ps.executeUpdate() > 0;
+            int inserted = ps.executeUpdate();
+            conn.commit();
+            return inserted > 0;
 
         } catch (SQLException e) {
             System.err.println("Error al insertar configuración: " + e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * Elimina una configuración por su key_name.
+     */
+    public boolean deleteByName(String keyName) {
+        String sql = "DELETE FROM Configurations WHERE key_name = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, keyName);
+            int deleted = ps.executeUpdate();
+            conn.commit();
+            return deleted > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar configuración: " + e.getMessage());
         }
         return false;
     }

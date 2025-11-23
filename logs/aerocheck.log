@@ -1,388 +1,125 @@
-2025-11-20 00:04:27.990 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
-2025-11-20 00:04:28.377 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 234e9eb6-488e-4ab7-aa1e-e0e68d5a254f
-2025-11-20 00:04:28.380 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
-2025-11-20 00:04:28.380 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
-2025-11-20 00:04:28.664 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
-2025-11-20 00:04:36.220 [AWT-EventQueue-0] ERROR dao.impl.ReportDao - Error al obtener logs recientes
-com.microsoft.sqlserver.jdbc.SQLServerException: El nombre de columna 'timestamp' no es válido.
-	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:278)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1788)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.doExecuteStatement(SQLServerStatement.java:975)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement$StmtExecCmd.doExecute(SQLServerStatement.java:869)
-	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7825)
-	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4828)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:321)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:253)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeQuery(SQLServerStatement.java:790)
-	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
-	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
-	at dao.impl.ReportDao.listRecentLogs(ReportDao.java:285)
-	at dao.impl.ReportDao.listRecentLogs(ReportDao.java:262)
-	at service.impl.ReportService.generarLogsRecientes(ReportService.java:42)
-	at ui.panels.ReportPanel.lambda$7(ReportPanel.java:68)
-	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
-	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-2025-11-20 00:04:38.204 [AWT-EventQueue-0] ERROR dao.impl.ReportDao - Error al obtener logs recientes
-com.microsoft.sqlserver.jdbc.SQLServerException: El nombre de columna 'timestamp' no es válido.
-	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:278)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1788)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.doExecuteStatement(SQLServerStatement.java:975)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement$StmtExecCmd.doExecute(SQLServerStatement.java:869)
-	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7825)
-	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4828)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:321)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:253)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeQuery(SQLServerStatement.java:790)
-	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
-	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
-	at dao.impl.ReportDao.listRecentLogs(ReportDao.java:285)
-	at service.impl.ReportService.generarLogsRecientes(ReportService.java:46)
-	at ui.panels.ReportPanel.lambda$12(ReportPanel.java:223)
-	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
-	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
-	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
-	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
-	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
-	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6621)
-	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3398)
-	at java.desktop/java.awt.Component.processEvent(Component.java:6386)
-	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
-	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4996)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
-	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
-	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
-	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
-	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:98)
-	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:747)
-	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:744)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:117)
-	at java.desktop/java.awt.WaitDispatchSupport$2.run(WaitDispatchSupport.java:191)
-	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:236)
-	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:234)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:319)
-	at java.desktop/java.awt.WaitDispatchSupport.enter(WaitDispatchSupport.java:234)
-	at java.desktop/java.awt.Dialog.show(Dialog.java:1079)
-	at java.desktop/java.awt.Component.show(Component.java:1728)
-	at java.desktop/java.awt.Component.setVisible(Component.java:1675)
-	at java.desktop/java.awt.Window.setVisible(Window.java:1036)
-	at java.desktop/java.awt.Dialog.setVisible(Dialog.java:1015)
-	at ui.panels.ReportPanel.showLogsDialog(ReportPanel.java:250)
-	at ui.panels.ReportPanel.lambda$7(ReportPanel.java:69)
-	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
-	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-2025-11-20 00:04:42.753 [AWT-EventQueue-0] ERROR dao.impl.ReportDao - Error al obtener logs recientes
-com.microsoft.sqlserver.jdbc.SQLServerException: El nombre de columna 'timestamp' no es válido.
-	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:278)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1788)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.doExecuteStatement(SQLServerStatement.java:975)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement$StmtExecCmd.doExecute(SQLServerStatement.java:869)
-	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7825)
-	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4828)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:321)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:253)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeQuery(SQLServerStatement.java:790)
-	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
-	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
-	at dao.impl.ReportDao.listRecentLogs(ReportDao.java:285)
-	at service.impl.ReportService.generarLogsRecientes(ReportService.java:46)
-	at ui.panels.ReportPanel.lambda$12(ReportPanel.java:223)
-	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
-	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
-	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
-	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
-	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
-	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6621)
-	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3398)
-	at java.desktop/java.awt.Component.processEvent(Component.java:6386)
-	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
-	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4996)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
-	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
-	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
-	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
-	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:98)
-	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:747)
-	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:744)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:117)
-	at java.desktop/java.awt.WaitDispatchSupport$2.run(WaitDispatchSupport.java:191)
-	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:236)
-	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:234)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:319)
-	at java.desktop/java.awt.WaitDispatchSupport.enter(WaitDispatchSupport.java:234)
-	at java.desktop/java.awt.Dialog.show(Dialog.java:1079)
-	at java.desktop/java.awt.Component.show(Component.java:1728)
-	at java.desktop/java.awt.Component.setVisible(Component.java:1675)
-	at java.desktop/java.awt.Window.setVisible(Window.java:1036)
-	at java.desktop/java.awt.Dialog.setVisible(Dialog.java:1015)
-	at ui.panels.ReportPanel.showLogsDialog(ReportPanel.java:250)
-	at ui.panels.ReportPanel.lambda$7(ReportPanel.java:69)
-	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
-	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-2025-11-20 00:04:42.932 [AWT-EventQueue-0] ERROR dao.impl.ReportDao - Error al obtener logs recientes
-com.microsoft.sqlserver.jdbc.SQLServerException: El nombre de columna 'timestamp' no es válido.
-	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:278)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1788)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.doExecuteStatement(SQLServerStatement.java:975)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement$StmtExecCmd.doExecute(SQLServerStatement.java:869)
-	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7825)
-	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4828)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:321)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:253)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeQuery(SQLServerStatement.java:790)
-	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
-	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
-	at dao.impl.ReportDao.listRecentLogs(ReportDao.java:285)
-	at service.impl.ReportService.generarLogsRecientes(ReportService.java:46)
-	at ui.panels.ReportPanel.lambda$12(ReportPanel.java:223)
-	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
-	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
-	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
-	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
-	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
-	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6621)
-	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3398)
-	at java.desktop/java.awt.Component.processEvent(Component.java:6386)
-	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
-	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4996)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
-	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
-	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
-	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
-	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:98)
-	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:747)
-	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:744)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:117)
-	at java.desktop/java.awt.WaitDispatchSupport$2.run(WaitDispatchSupport.java:191)
-	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:236)
-	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:234)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:319)
-	at java.desktop/java.awt.WaitDispatchSupport.enter(WaitDispatchSupport.java:234)
-	at java.desktop/java.awt.Dialog.show(Dialog.java:1079)
-	at java.desktop/java.awt.Component.show(Component.java:1728)
-	at java.desktop/java.awt.Component.setVisible(Component.java:1675)
-	at java.desktop/java.awt.Window.setVisible(Window.java:1036)
-	at java.desktop/java.awt.Dialog.setVisible(Dialog.java:1015)
-	at ui.panels.ReportPanel.showLogsDialog(ReportPanel.java:250)
-	at ui.panels.ReportPanel.lambda$7(ReportPanel.java:69)
-	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
-	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-2025-11-20 00:04:43.108 [AWT-EventQueue-0] ERROR dao.impl.ReportDao - Error al obtener logs recientes
-com.microsoft.sqlserver.jdbc.SQLServerException: El nombre de columna 'timestamp' no es válido.
-	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:278)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1788)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.doExecuteStatement(SQLServerStatement.java:975)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement$StmtExecCmd.doExecute(SQLServerStatement.java:869)
-	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7825)
-	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4828)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:321)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:253)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeQuery(SQLServerStatement.java:790)
-	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
-	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
-	at dao.impl.ReportDao.listRecentLogs(ReportDao.java:285)
-	at service.impl.ReportService.generarLogsRecientes(ReportService.java:46)
-	at ui.panels.ReportPanel.lambda$12(ReportPanel.java:223)
-	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
-	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
-	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
-	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
-	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
-	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6621)
-	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3398)
-	at java.desktop/java.awt.Component.processEvent(Component.java:6386)
-	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
-	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4996)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
-	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
-	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
-	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
-	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:98)
-	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:747)
-	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:744)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:117)
-	at java.desktop/java.awt.WaitDispatchSupport$2.run(WaitDispatchSupport.java:191)
-	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:236)
-	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:234)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:319)
-	at java.desktop/java.awt.WaitDispatchSupport.enter(WaitDispatchSupport.java:234)
-	at java.desktop/java.awt.Dialog.show(Dialog.java:1079)
-	at java.desktop/java.awt.Component.show(Component.java:1728)
-	at java.desktop/java.awt.Component.setVisible(Component.java:1675)
-	at java.desktop/java.awt.Window.setVisible(Window.java:1036)
-	at java.desktop/java.awt.Dialog.setVisible(Dialog.java:1015)
-	at ui.panels.ReportPanel.showLogsDialog(ReportPanel.java:250)
-	at ui.panels.ReportPanel.lambda$7(ReportPanel.java:69)
-	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
-	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-2025-11-20 00:08:05.485 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
-2025-11-20 00:08:05.825 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 050e7bd7-a1f4-43a1-9f85-50e31634d43d
-2025-11-20 00:08:05.827 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
-2025-11-20 00:08:05.827 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
-2025-11-20 00:08:06.093 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
-2025-11-20 00:08:09.471 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
-2025-11-20 00:08:18.666 [AWT-EventQueue-0] ERROR dao.impl.ReportDao - Error al obtener logs recientes
-com.microsoft.sqlserver.jdbc.SQLServerException: El nombre de columna 'timestamp' no es válido.
-	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:278)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1788)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.doExecuteStatement(SQLServerStatement.java:975)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement$StmtExecCmd.doExecute(SQLServerStatement.java:869)
-	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7825)
-	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4828)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:321)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:253)
-	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeQuery(SQLServerStatement.java:790)
-	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
-	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
-	at dao.impl.ReportDao.listRecentLogs(ReportDao.java:285)
-	at dao.impl.ReportDao.listRecentLogs(ReportDao.java:262)
-	at service.impl.ReportService.generarLogsRecientes(ReportService.java:42)
-	at ui.panels.ReportPanel.lambda$7(ReportPanel.java:68)
-	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
-	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-2025-11-20 00:16:17.796 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
-2025-11-20 00:16:18.132 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 24f406f6-172e-4f9d-b657-9b1db7b2ac88
-2025-11-20 00:16:18.135 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
-2025-11-20 00:16:18.136 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
-2025-11-20 00:16:18.405 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
-2025-11-20 00:24:46.113 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
-2025-11-20 00:24:46.454 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 3e13a533-fdb9-497d-9410-b93d2d18c198
-2025-11-20 00:24:46.455 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
-2025-11-20 00:24:46.455 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
-2025-11-20 00:24:46.732 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
-2025-11-20 00:28:02.399 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
-2025-11-20 00:28:37.932 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
-2025-11-20 00:28:39.415 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
-2025-11-20 00:28:49.148 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763616476140, PassengerID=1
-2025-11-20 00:28:49.152 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1017: false
-2025-11-20 00:28:57.252 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos totales para vuelo 3: 150
-2025-11-20 00:29:00.085 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 8 asignado exitosamente a reservación: 1017
-2025-11-20 00:29:00.086 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 8 asignado manualmente a reservación: 1017
-2025-11-20 00:29:08.015 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1017: false
-2025-11-20 00:29:08.016 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
-2025-11-20 00:29:08.019 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Intentando insertar check-in: ReservationID=1017, AgentID=2, SeatID=8, BoardingCode=BP-PNR1763616476140-1763616548016
-2025-11-20 00:29:08.022 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 1013, ReservationID: 1017
-2025-11-20 00:29:08.282 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Cargos por equipaje calculados: 110.0 para CheckIn 1013
-2025-11-20 00:29:08.284 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in completado exitosamente: CheckInID=1013, ReservationID=1017
-2025-11-20 00:29:12.504 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1017: true
+2025-11-23 00:42:53.041 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-23 00:42:53.587 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: f65e053d-07ee-4398-b7c2-747dbc0b2416
+2025-11-23 00:42:53.589 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-23 00:42:53.589 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-23 00:42:53.895 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-23 00:43:05.771 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 00:43:07.192 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 00:43:07.377 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 00:43:07.564 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:07:18.606 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-23 01:07:18.981 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: db6aca08-af2c-4c1f-b2f1-899f94c5ea2f
+2025-11-23 01:07:18.983 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-23 01:07:18.983 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-23 01:07:19.261 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-23 01:07:22.739 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:07:41.329 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro insertado: baggage = 12
+2025-11-23 01:07:42.359 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:07:44.121 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:07:45.248 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:07:45.427 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:07:47.674 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:07:48.435 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:08:07.693 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763878073228, PassengerID=1
+2025-11-23 01:08:07.698 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1018: false
+2025-11-23 01:08:16.684 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos totales para vuelo 1: 6
+2025-11-23 01:08:29.746 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asientos por fila inferidos: 3 para vuelo: 1
+2025-11-23 01:08:53.610 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763878073228, PassengerID=1
+2025-11-23 01:08:53.612 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1018: false
+2025-11-23 01:09:01.260 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos totales para vuelo 3: 150
+2025-11-23 01:09:03.616 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 81 asignado exitosamente a reservación: 1018
+2025-11-23 01:09:03.617 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 81 asignado manualmente a reservación: 1018
+2025-11-23 01:09:13.586 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1018: false
+2025-11-23 01:09:13.587 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-23 01:09:13.591 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Intentando insertar check-in: ReservationID=1018, AgentID=2, SeatID=81, BoardingCode=BP-PNR1763878073228-1763878153587
+2025-11-23 01:09:13.595 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 1014, ReservationID: 1018
+2025-11-23 01:09:13.837 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Cargos por equipaje calculados: 130.0 para CheckIn 1014
+2025-11-23 01:09:13.839 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in completado exitosamente: CheckInID=1014, ReservationID=1018
+2025-11-23 01:09:20.954 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1018: true
+2025-11-23 01:19:04.338 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-23 01:19:04.689 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: e0fa41ef-b392-4fcd-a38a-637793ec2dbd
+2025-11-23 01:19:04.690 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-23 01:19:04.690 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-23 01:19:04.967 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-23 01:19:17.309 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763878749133, PassengerID=1
+2025-11-23 01:19:17.317 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1019: false
+2025-11-23 01:19:25.068 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos totales para vuelo 3: 150
+2025-11-23 01:19:27.924 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 9 asignado exitosamente a reservación: 1019
+2025-11-23 01:19:27.926 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 9 asignado manualmente a reservación: 1019
+2025-11-23 01:19:35.564 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1019: false
+2025-11-23 01:19:35.565 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-23 01:19:35.575 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Intentando insertar check-in: ReservationID=1019, AgentID=2, SeatID=9, BoardingCode=BP-PNR1763878749133-1763878775565
+2025-11-23 01:19:35.578 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 1015, ReservationID: 1019
+2025-11-23 01:19:35.795 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Cargos por equipaje calculados: 70.0 para CheckIn 1015
+2025-11-23 01:19:35.797 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in completado exitosamente: CheckInID=1015, ReservationID=1019
+2025-11-23 01:19:39.514 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1019: true
+2025-11-23 01:19:42.103 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:19:56.359 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro insertado: baggage.price.perKg = 20.0
+2025-11-23 01:19:56.360 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro insertado: baggage.price.perPiece = 15.0
+2025-11-23 01:19:57.323 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:19:58.748 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:20:01.039 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:20:06.718 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro insertado: baggage.price.perKg = 10.0
+2025-11-23 01:20:06.721 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro insertado: baggage.price.perPiece = 10.0
+2025-11-23 01:20:07.785 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:20:08.620 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:20:09.457 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:20:11.019 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:28:16.026 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-23 01:28:16.354 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 864a80dc-3096-406c-bc50-9b66ec4bf2e7
+2025-11-23 01:28:16.356 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-23 01:28:16.356 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-23 01:28:16.639 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-23 01:28:18.247 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:28:22.809 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:28:25.589 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro insertado: baggage.price.perKg = 10.0
+2025-11-23 01:28:25.593 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro insertado: baggage.price.perPiece = 10.0
+2025-11-23 01:28:26.448 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:28:28.132 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:28:29.229 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:28:29.837 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:28:39.737 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:34:06.481 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-23 01:34:06.841 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: add8fa97-3878-4227-a5ed-e8c882f05d54
+2025-11-23 01:34:06.843 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-23 01:34:06.843 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-23 01:34:07.118 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-23 01:34:10.652 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:34:13.950 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:34:20.981 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:34:22.234 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:34:56.845 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:35:02.257 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 0
+2025-11-23 01:42:30.196 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-23 01:42:30.540 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: 3cd8fca6-a38f-43fc-8b6c-22d24ee0ddf0
+2025-11-23 01:42:30.541 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-23 01:42:30.541 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-23 01:42:30.818 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-23 01:42:32.416 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 2
+2025-11-23 01:42:39.508 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro actualizado: baggage.price.perKg = 5.0
+2025-11-23 01:42:39.510 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro actualizado: baggage.price.perPiece = 10.0
+2025-11-23 01:42:40.640 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 2
+2025-11-23 01:42:42.586 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 2
+2025-11-23 01:42:59.632 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Reservación encontrada: PNR=PNR1763880172301, PassengerID=1
+2025-11-23 01:42:59.637 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1020: false
+2025-11-23 01:43:07.803 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asientos totales para vuelo 3: 150
+2025-11-23 01:43:09.365 [AWT-EventQueue-0] INFO  dao.impl.SeatDao - Asiento 11 asignado exitosamente a reservación: 1020
+2025-11-23 01:43:09.366 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Asiento 11 asignado manualmente a reservación: 1020
+2025-11-23 01:43:19.588 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1020: false
+2025-11-23 01:43:19.588 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Validación de documento: exitosa
+2025-11-23 01:43:19.591 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Intentando insertar check-in: ReservationID=1020, AgentID=2, SeatID=11, BoardingCode=BP-PNR1763880172301-1763880199588
+2025-11-23 01:43:19.596 [AWT-EventQueue-0] INFO  dao.impl.CheckInDao - Check-in insertado exitosamente. CheckInID: 1016, ReservationID: 1020
+2025-11-23 01:43:19.817 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Cargos por equipaje calculados: 70.0 para CheckIn 1016
+2025-11-23 01:43:19.819 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in completado exitosamente: CheckInID=1016, ReservationID=1020
+2025-11-23 01:43:31.049 [AWT-EventQueue-0] INFO  service.impl.CheckInService - Check-in previo verificado para reservación 1020: true
+2025-11-23 01:59:39.732 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Starting...
+2025-11-23 01:59:40.076 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.pool.HikariPool - CheckInDB-Pool - Added connection ConnectionID:1 ClientConnectionId: ac577a29-c325-4be5-9a12-797adab0282c
+2025-11-23 01:59:40.077 [AWT-EventQueue-0] INFO  com.zaxxer.hikari.HikariDataSource - CheckInDB-Pool - Start completed.
+2025-11-23 01:59:40.078 [AWT-EventQueue-0] INFO  config.db.DBConnection - Pool de conexiones HikariCP inicializado correctamente.
+2025-11-23 01:59:40.354 [AWT-EventQueue-0] INFO  service.impl.AuthService - Login exitoso para usuario: admin
+2025-11-23 01:59:47.893 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 2
+2025-11-23 01:59:54.409 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro actualizado: baggage.price.perKg = 5.0
+2025-11-23 01:59:54.410 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetro actualizado: baggage.price.perPiece = 10.0
+2025-11-23 01:59:56.094 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 2
+2025-11-23 01:59:57.972 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 2
+2025-11-23 02:00:45.614 [AWT-EventQueue-0] INFO  service.impl.ConfigService - Parámetros de configuración cargados: 2
