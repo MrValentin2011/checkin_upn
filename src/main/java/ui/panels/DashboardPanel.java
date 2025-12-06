@@ -4,6 +4,8 @@ package ui.panels;
 import java.awt.*;
 import javax.swing.*;
 import ui.frames.MainFrame;
+import config.app.SessionManager;
+import model.User;
 
 public class DashboardPanel extends JPanel {
 
@@ -20,39 +22,80 @@ public class DashboardPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
-        JPanel sidePanel = new JPanel(new GridLayout(7, 1, 10, 10)); // ← 7 filas (sumamos Pasajeros)
+        JPanel sidePanel = new JPanel(new GridLayout(0, 1, 10, 10)); // Auto filas
         sidePanel.setBackground(new Color(33, 45, 62));
         sidePanel.setPreferredSize(new Dimension(200, getHeight()));
 
+        // Crear botones (TODOS)
         JButton btnCheckIn = createMenuButton("✈️ Check-In");
         JButton btnFlights = createMenuButton("🛫 Vuelos");
-        JButton btnPassengers = createMenuButton("🧑‍✈️ Pasajeros");   // ← NUEVO
-        JButton btnReports = createMenuButton("📊 Reportes");
+        JButton btnPassengers = createMenuButton("🧑‍✈️ Pasajeros");
+        //JButton btnNotifications = createMenuButton("🔔 Notificaciones");
+        //JButton btnStatistics = createMenuButton("📊 Estadísticas");
+        JButton btnReports = createMenuButton("📋 Reportes");
+        JButton btnHelp = createMenuButton("❓ Ayuda");
         JButton btnConfig = createMenuButton("⚙️ Configuración");
         JButton btnLogout = createMenuButton("🚪 Cerrar sesión");
 
-        sidePanel.add(btnCheckIn);
-        sidePanel.add(btnFlights);
-        sidePanel.add(btnPassengers); // ← NUEVO
-        sidePanel.add(btnReports);
-        sidePanel.add(btnConfig);
-        sidePanel.add(btnLogout);
+        // --- CONTROL DE ACCESO ---
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+        int roleId = currentUser.getId_role();
 
+        switch (roleId) {
+
+            case 1: // AGENTE
+                sidePanel.add(btnCheckIn);
+                sidePanel.add(btnHelp);
+                sidePanel.add(btnLogout);
+                break;
+
+            case 2: // SUPERVISOR
+                sidePanel.add(btnCheckIn);
+                //sidePanel.add(btnStatistics);
+                sidePanel.add(btnReports);
+                sidePanel.add(btnHelp);
+                sidePanel.add(btnLogout);
+                break;
+
+            case 3: // ADMINISTRADOR
+                sidePanel.add(btnCheckIn);
+                sidePanel.add(btnFlights);
+                sidePanel.add(btnPassengers);
+                //sidePanel.add(btnNotifications);
+                //sidePanel.add(btnStatistics);
+                sidePanel.add(btnReports);
+                sidePanel.add(btnConfig);
+                sidePanel.add(btnHelp);
+                sidePanel.add(btnLogout);
+                break;
+        }
+
+        // --- PANEL CENTRAL ---
         JLabel lblWelcome = new JLabel("Bienvenido al sistema de AEROCHECK", SwingConstants.CENTER);
         lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 18));
         contentPanel.add(lblWelcome, BorderLayout.CENTER);
 
+        // --- LISTENERS ---
         btnCheckIn.addActionListener(e -> showPanel(new CheckInPanel()));
         btnFlights.addActionListener(e -> showPanel(new FlightPanel()));
-        btnPassengers.addActionListener(e -> showPanel(new PassengerPanel())); // ← NUEVO
-        // Reemplazamos el acceso directo a Baggage por el panel de reportes
-        //btnBaggage.addActionListener(e -> showPanel(new BaggagePanel()));
+        btnPassengers.addActionListener(e -> showPanel(new PassengerPanel()));
+        //btnNotifications.addActionListener(
+        //        e -> showPanel(new NotificationPanel(SessionManager.getInstance().getCurrentUserId())));
+        //btnStatistics.addActionListener(e -> showPanel(new StatisticsPanel()));
         btnReports.addActionListener(e -> showPanel(new ReportPanel()));
+        btnHelp.addActionListener(e -> showPanel(new HelpPanel()));
         btnConfig.addActionListener(e -> showPanel(new ConfigPanel()));
-        
+
         btnLogout.addActionListener(e -> {
-            int opt = JOptionPane.showConfirmDialog(this, "¿Desea cerrar sesión?", "Confirmar", JOptionPane.YES_NO_OPTION);
+            int opt = JOptionPane.showConfirmDialog(this, "¿Desea cerrar sesión?", "Confirmar",
+                    JOptionPane.YES_NO_OPTION);
+
             if (opt == JOptionPane.YES_OPTION) {
+                SessionManager.getInstance().clearSession();
+
+                // ❗ CREAR UN NUEVO LOGIN PANEL VACÍO
+                mainFrame.replaceLoginPanel();
+
                 mainFrame.showPanel("login");
             }
         });
@@ -78,4 +121,5 @@ public class DashboardPanel extends JPanel {
         contentPanel.revalidate();
         contentPanel.repaint();
     }
+
 }

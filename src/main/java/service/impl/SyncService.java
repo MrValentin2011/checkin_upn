@@ -7,6 +7,7 @@ package service.impl;
 import java.util.List;
 import offline.localdb.OfflineDBManager;
 import offline.sync.SyncQueue;
+import offline.sync.SyncManager;
 
 /**
  *
@@ -18,11 +19,8 @@ public class SyncService {
     private final SyncQueue syncQueue = new SyncQueue();
 
     public void sincronizarPendientes() {
-        List<String> operaciones = localDb.obtenerPendientes();
-        for (String op : operaciones) {
-            if (syncQueue.enviarOperacion(op)) {
-                localDb.marcarComoSincronizado(op);
-            }
-        }
+        // Use SyncManager instead for proper sync
+        SyncManager syncManager = SyncManager.getInstance();
+        syncManager.synchronizeSync();
     }
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ui.frames;
 
 import java.awt.*;
@@ -9,16 +5,10 @@ import java.net.URL;
 import javax.swing.*;
 import ui.panels.DashboardPanel;
 import ui.panels.LoginPanel;
+import config.app.SessionManager;
 
-/**
- *
- * @author USER
- */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
@@ -27,8 +17,37 @@ public class MainFrame extends javax.swing.JFrame {
         prepararVentana();
     }
 
+    /**
+     * Muestra un panel por nombre
+     */
     public void showPanel(String name) {
         cardLayout.show(mainPanel, name);
+    }
+
+    /**
+     * Crea el dashboard DESPUÉS del login
+     */
+    public void loadDashboard() {
+
+        // Seguridad: impedir cargar Dashboard sin usuario
+        if (SessionManager.getInstance().getCurrentUser() == null) {
+            JOptionPane.showMessageDialog(this,
+                    "No hay usuario en sesión, regresando al login.",
+                    "Sesión inválida",
+                    JOptionPane.WARNING_MESSAGE);
+
+            showPanel("login");
+            return;
+        }
+
+        // Crear nuevo DashboardPanel con el usuario ya cargado
+        DashboardPanel dashboard = new DashboardPanel(this);
+
+        // Reemplazar panel si ya existe
+        mainPanel.add(dashboard, "dashboard");
+
+        // Mostrarlo
+        showPanel("dashboard");
     }
 
     private void prepararVentana() {
@@ -37,91 +56,72 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-        // Código corregido (CORRECTO)
+
         setIconoAplicacion("/img/icono_app.png");
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Paneles principales
+        // ❗ SOLO se carga el login al inicio
         mainPanel.add(new LoginPanel(this), "login");
-        mainPanel.add(new DashboardPanel(this), "dashboard");
 
         add(mainPanel, BorderLayout.CENTER);
+
+        // Vista inicial
         cardLayout.show(mainPanel, "login");
+    }
+
+    public void replaceLoginPanel() {
+        mainPanel.remove(mainPanel.getComponent(0)); // Elimina panel actual "login"
+        mainPanel.add(new LoginPanel(this), "login"); // Agrega uno nuevo limpio
     }
 
     private void setIconoAplicacion(String path) {
         try {
-            URL iconURL = getClass().getResource(path); 
-            
+            URL iconURL = getClass().getResource(path);
+
             if (iconURL != null) {
                 Image icon = new ImageIcon(iconURL).getImage();
                 this.setIconImage(icon);
             } else {
-                // Si la ruta es incorrecta, este mensaje te indicará el problema.
-                System.err.println("Advertencia: No se pudo encontrar el recurso de icono en la ruta: " + path);
+                System.err.println("Advertencia: No se encontró icono en: " + path);
             }
         } catch (Exception e) {
-            System.err.println("Error al establecer el icono de la aplicación:");
+            System.err.println("Error cargando ícono: ");
             e.printStackTrace();
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // Código generado por NetBeans
+    @SuppressWarnings("unchecked")
     private void initComponents() {
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 400, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 300, Short.MAX_VALUE));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (Exception e) {
         }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
+        EventQueue.invokeLater(() -> {
+            new MainFrame().setVisible(true);
         });
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
 }

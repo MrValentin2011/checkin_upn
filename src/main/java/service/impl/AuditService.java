@@ -114,4 +114,13 @@ public class AuditService {
         String details = "Operation=" + operation + " | Reason=" + reason;
         registrarAccion(userId, action, details);
     }
+
+    /**
+     * Registra cambio de contraseña por recuperación.
+     */
+    public void logPasswordReset(Integer userId, String username, boolean success) {
+        String action = "PASSWORD_RESET";
+        String details = "Username=" + username + " | Success=" + success;
+        registrarAccion(userId, action, details);
+    }
 }

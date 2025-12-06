@@ -50,7 +50,7 @@ public class ConfigPanel extends JPanel {
 				if (keyObj == null) return;
 				String key = keyObj.toString();
 				if (!EDITABLE_KEYS.contains(key)) {
-					JOptionPane.showMessageDialog(this, "Esta clave no es editable desde aquí.");
+					JOptionPane.showMessageDialog(this, "Esta clave no es editable desde aquí.", "Parámetro Protegido", JOptionPane.WARNING_MESSAGE);
 					loadParameters();
 					return;
 				}
@@ -61,15 +61,15 @@ public class ConfigPanel extends JPanel {
 					dv = Double.parseDouble(newVal);
 					if (dv < 0) throw new NumberFormatException("negativo");
 				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(this, "Valor inválido para " + key + ": debe ser número no negativo", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Valor inválido para " + key + ": debe ser número no negativo", "Valor Inválido", JOptionPane.ERROR_MESSAGE);
 					loadParameters();
 					return;
 				}
 				boolean ok = cfg.actualizarParametro(key, newVal);
 				if (ok) {
-					JOptionPane.showMessageDialog(this, "Parámetro '" + key + "' actualizado: " + newVal);
+					JOptionPane.showMessageDialog(this, "Parámetro '" + key + "' actualizado: " + newVal, "Actualización Exitosa", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(this, "Error al guardar '" + key + "' en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Error al guardar '" + key + "' en la base de datos", "Error al Guardar", JOptionPane.ERROR_MESSAGE);
 					loadParameters();
 				}
 			} catch (Exception ex) {
@@ -96,12 +96,12 @@ public class ConfigPanel extends JPanel {
 					double dv = Double.parseDouble(val);
 					if (dv < 0) throw new NumberFormatException("negativo");
 				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(this, "Valor inválido para " + key + ": debe ser número no negativo", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Valor inválido para " + key + ": debe ser número no negativo", "Valor Inválido", JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
 				if (cfg.actualizarParametro(key, val)) success++; 
 			}
-			JOptionPane.showMessageDialog(this, "Parámetros actualizados: " + success);
+			JOptionPane.showMessageDialog(this, "Parámetros actualizados: " + success, "Actualización Completada", JOptionPane.INFORMATION_MESSAGE);
 			loadParameters();
 		});
 

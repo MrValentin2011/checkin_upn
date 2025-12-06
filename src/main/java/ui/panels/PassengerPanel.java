@@ -2,6 +2,7 @@ package ui.panels;
 
 import dao.impl.PassengerDao;
 import model.Passenger;
+import service.impl.PassengerService;
 import ui.dialogs.PassengerForm;
 import ui.dialogs.ReservationCreateDialog;
 
@@ -13,7 +14,8 @@ import java.util.List;
 
 public class PassengerPanel extends JPanel {
 
-    private final PassengerDao passengerDao = new PassengerDao();
+    private final PassengerService passengerService = new PassengerService();
+    private final PassengerDao passengerDao = new PassengerDao(); // Para el cálculo de frecuente
 
     private final DefaultTableModel model = new DefaultTableModel(
             new Object[]{"ID", "Nombre", "Apellido", "Tipo Doc", "N° Doc", "F.Nac.", "Email", "Teléfono", "Frecuente"}, 0) {
@@ -64,10 +66,13 @@ public class PassengerPanel extends JPanel {
 
     private void loadData(String q) {
         model.setRowCount(0);
+        System.out.println("[PassengerPanel] loadData() - Búsqueda: '" + (q == null ? "" : q) + "'");
         List<Passenger> list = (q == null || q.isBlank())
-                ? passengerDao.listAll()
-                : passengerDao.search(q);
+                ? passengerService.listarPasajeros()
+                : passengerService.buscar(q);
+        System.out.println("[PassengerPanel] loadData() - Total de pasajeros encontrados: " + list.size());
         for (Passenger p : list) {
+            int frequentCount = passengerDao.computeFrequentCount(p.getId());
             model.addRow(new Object[]{
                 p.getId(),
                 p.getFirstName(),
@@ -77,18 +82,31 @@ public class PassengerPanel extends JPanel {
                 p.getDateOfBirth() != null ? p.getDateOfBirth().toString() : "",
                 p.getEmail(),
                 p.getPhone(),
-                p.getFrequentCounter()
+                frequentCount
             });
         }
     }
 
     private void createPassenger() {
+        System.out.println("[PassengerPanel] createPassenger() - Abriendo formulario de nuevo pasajero");
         PassengerForm form = new PassengerForm(null);
-        if (!form.showDialog(this)) return;
+        if (!form.showDialog(this)) {
+            System.out.println("[PassengerPanel] createPassenger() - Formulario cancelado");
+            return;
+        }
+
+        System.out.println("[PassengerPanel] createPassenger() - Datos del formulario:");
+        System.out.println("  - Nombre: " + form.firstName);
+        System.out.println("  - Apellido: " + form.lastName);
+        System.out.println("  - Tipo Doc: " + form.docType);
+        System.out.println("  - N° Doc: " + form.docNumber);
+        System.out.println("  - Email: " + form.email);
+        System.out.println("  - Teléfono: " + form.phone);
 
         // Validación de duplicado de documento
-        if (passengerDao.existsByDocument(form.docNumber, null)) {
-            JOptionPane.showMessageDialog(this, "El documento ya existe. Verifique.");
+        if (passengerService.existeDocumento(form.docNumber, null)) {
+            System.out.println("[PassengerPanel] createPassenger() - ERROR: Documento duplicado: " + form.docNumber);
+            JOptionPane.showMessageDialog(this, "El documento ya existe. Verifique.", "Documento Duplicado", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -100,43 +118,71 @@ public class PassengerPanel extends JPanel {
         p.setDateOfBirth(form.dob);
         p.setEmail(form.email);
         p.setPhone(form.phone);
-        p.setFrequentCounter(form.frequentCounter);
+        // Nuevo pasajero: contador frecuente inicia en 0 (se calcula a partir de check-ins)
+        p.setFrequentCounter(0);
 
-        boolean ok = passengerDao.insert(p);
+        System.out.println("[PassengerPanel] createPassenger() - Intentando guardar pasajero...");
+        boolean ok = passengerService.crear(p);
         if (!ok) {
-            JOptionPane.showMessageDialog(this, "No se pudo crear el pasajero.");
+            System.out.println("[PassengerPanel] createPassenger() - ERROR al insertar pasajero en BD");
+            JOptionPane.showMessageDialog(this, "No se pudo crear el pasajero.", "Error al Crear", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        System.out.println("[PassengerPanel] createPassenger() - Pasajero creado exitosamente con ID: " + p.getId());
         loadData(txtBuscar.getText().trim());
     }
 
     private void editPassenger() {
         int row = table.getSelectedRow();
-        if (row < 0) { JOptionPane.showMessageDialog(this, "Seleccione un pasajero"); return; }
+        if (row < 0) { 
+            System.out.println("[PassengerPanel] editPassenger() - ERROR: No hay pasajero seleccionado");
+            JOptionPane.showMessageDialog(this, "Seleccione un pasajero", "Selección Requerida", JOptionPane.INFORMATION_MESSAGE); 
+            return; 
+        }
+
+        // Leer datos actuales de la tabla (incluyendo el ID)
+        Integer passengerId = (Integer) model.getValueAt(row, 0);
+        String firstName = (String) model.getValueAt(row, 1);
+        String lastName = (String) model.getValueAt(row, 2);
+        String docType = (String) model.getValueAt(row, 3);
+        String docNumber = (String) model.getValueAt(row, 4);
+        LocalDate dob = strToLocalDate((String) model.getValueAt(row, 5));
+        String email = (String) model.getValueAt(row, 6);
+        String phone = (String) model.getValueAt(row, 7);
+        // NO pasar el valor "Frecuente" desde la tabla, siempre calcularlo desde BD
+        int frequentCountFromDb = passengerDao.computeFrequentCount(passengerId);
+
+        System.out.println("[PassengerPanel] editPassenger() - Editando pasajero ID: " + passengerId);
+        System.out.println("  - Nombre actual: " + firstName + " " + lastName);
 
         PassengerForm.Data d = new PassengerForm.Data(
-                (Integer) model.getValueAt(row, 0),
-                (String)  model.getValueAt(row, 1),
-                (String)  model.getValueAt(row, 2),
-                (String)  model.getValueAt(row, 3),
-                (String)  model.getValueAt(row, 4),
-                strToLocalDate((String) model.getValueAt(row, 5)),
-                (String)  model.getValueAt(row, 6),
-                (String)  model.getValueAt(row, 7),
-                (Integer) model.getValueAt(row, 8)
+                passengerId, firstName, lastName, docType, docNumber,
+                dob, email, phone, frequentCountFromDb
         );
 
         PassengerForm form = new PassengerForm(d);
-        if (!form.showDialog(this)) return;
+        if (!form.showDialog(this)) {
+            System.out.println("[PassengerPanel] editPassenger() - Formulario de edición cancelado");
+            return;
+        }
+
+        System.out.println("[PassengerPanel] editPassenger() - Datos modificados:");
+        System.out.println("  - Nombre: " + form.firstName);
+        System.out.println("  - Apellido: " + form.lastName);
+        System.out.println("  - Tipo Doc: " + form.docType);
+        System.out.println("  - N° Doc: " + form.docNumber);
+        System.out.println("  - Email: " + form.email);
+        System.out.println("  - Teléfono: " + form.phone);
 
         // Validación de duplicado de documento (excluye el propio ID)
-        if (passengerDao.existsByDocument(form.docNumber, d.id)) {
-            JOptionPane.showMessageDialog(this, "El documento ya existe en otro pasajero.");
+        if (passengerService.existeDocumento(form.docNumber, passengerId)) {
+            System.out.println("[PassengerPanel] editPassenger() - ERROR: Documento duplicado: " + form.docNumber);
+            JOptionPane.showMessageDialog(this, "El documento ya existe en otro pasajero.", "Documento Duplicado", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         Passenger p = new Passenger();
-        p.setId(d.id);
+        p.setId(passengerId);
         p.setFirstName(form.firstName);
         p.setLastName(form.lastName);
         p.setDocumentType(form.docType);
@@ -144,13 +190,17 @@ public class PassengerPanel extends JPanel {
         p.setDateOfBirth(form.dob);
         p.setEmail(form.email);
         p.setPhone(form.phone);
-        p.setFrequentCounter(form.frequentCounter);
+        // El contador frecuente se recalcula SIEMPRE desde la BD después de actualizar
+        p.setFrequentCounter(passengerDao.computeFrequentCount(passengerId));
 
-        boolean ok = passengerDao.update(p);
+        System.out.println("[PassengerPanel] editPassenger() - Intentando actualizar pasajero ID: " + passengerId);
+        boolean ok = passengerService.actualizar(p);
         if (!ok) {
-            JOptionPane.showMessageDialog(this, "No se pudo actualizar el pasajero.");
+            System.out.println("[PassengerPanel] editPassenger() - ERROR al actualizar pasajero en BD");
+            JOptionPane.showMessageDialog(this, "No se pudo actualizar el pasajero.", "Error al Actualizar", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        System.out.println("[PassengerPanel] editPassenger() - Pasajero actualizado exitosamente");
         loadData(txtBuscar.getText().trim());
     }
 
@@ -181,7 +231,7 @@ public class PassengerPanel extends JPanel {
         Frame owner = (Frame) SwingUtilities.getWindowAncestor(this);
         ReservationCreateDialog dlg =
             new ReservationCreateDialog(owner, passengerId, pnr ->
-                JOptionPane.showMessageDialog(this, "Reserva creada con PNR: " + pnr)
+                JOptionPane.showMessageDialog(this, "Reserva creada con PNR: " + pnr, "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE)
             );
         dlg.setVisible(true);
     }

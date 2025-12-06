@@ -167,36 +167,73 @@ public class ReportDao {
      */
     public List<ReportData> listReservationsSummary(java.sql.Date startDate, java.sql.Date endDate) {
         List<ReportData> list = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("""
-            SELECT f.flight_number, COUNT(r.reservation_id) AS reservations
-            FROM Flights f
-            LEFT JOIN Reservations r ON r.flight_id = f.flight_id
-            GROUP BY f.flight_number
-            ORDER BY f.flight_number
-        """);
-
+        
+        String sql;
         if (startDate != null || endDate != null) {
-            sql.insert(sql.indexOf("GROUP BY"), "WHERE (1=1 "
-                    + (startDate != null ? "AND CAST(r.created_at AS DATE) >= '" + startDate + "'" : "")
-                    + (endDate != null ? " AND CAST(r.created_at AS DATE) <= '" + endDate + "'" : "")
-                    + ") ");
+            // Con filtro de fechas
+            sql = """
+                SELECT f.flight_number, a.name AS airline, d.city AS destination,
+                       COUNT(r.reservation_id) AS reservations
+                FROM Flights f
+                INNER JOIN Airlines a ON f.airline_id = a.airline_id
+                INNER JOIN Destinations d ON f.destination_id = d.destination_id
+                LEFT JOIN Reservations r ON r.flight_id = f.flight_id
+                WHERE (1=1
+                    """ + (startDate != null ? "AND CAST(r.created_at AS DATE) >= ?" : "") + """
+                    """ + (endDate != null ? "AND CAST(r.created_at AS DATE) <= ?" : "") + """
+                )
+                GROUP BY f.flight_number, a.name, d.city
+                ORDER BY f.flight_number
+            """;
         } else {
-            sql.insert(sql.indexOf("GROUP BY"), "WHERE CAST(f.departure_time AS DATE) = CAST(GETDATE() AS DATE) ");
+            // Sin filtro: incluir todas las reservaciones por vuelo
+            sql = """
+                SELECT f.flight_number, a.name AS airline, d.city AS destination,
+                       COUNT(r.reservation_id) AS reservations
+                FROM Flights f
+                INNER JOIN Airlines a ON f.airline_id = a.airline_id
+                INNER JOIN Destinations d ON f.destination_id = d.destination_id
+                LEFT JOIN Reservations r ON r.flight_id = f.flight_id
+                GROUP BY f.flight_number, a.name, d.city
+                ORDER BY f.flight_number
+            """;
         }
 
         try (Connection conn = DBConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql.toString())) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                ReportData r = new ReportData();
-                r.setFlightCode(rs.getString("flight_number"));
-                r.setPassengers(rs.getInt("reservations"));
-                list.add(r);
+            int paramIndex = 1;
+            if (startDate != null || endDate != null) {
+                if (startDate != null) {
+                    pstmt.setDate(paramIndex++, startDate);
+                    System.out.println("[ReportDao] listReservationsSummary() - Filtro startDate: " + startDate);
+                }
+                if (endDate != null) {
+                    pstmt.setDate(paramIndex++, endDate);
+                    System.out.println("[ReportDao] listReservationsSummary() - Filtro endDate: " + endDate);
+                }
+            } else {
+                System.out.println("[ReportDao] listReservationsSummary() - Sin filtro, mostrando todos los datos");
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                int count = 0;
+                while (rs.next()) {
+                    ReportData r = new ReportData();
+                    r.setFlightCode(rs.getString("flight_number"));
+                    r.setAirline(rs.getString("airline"));
+                    r.setDestination(rs.getString("destination"));
+                    r.setPassengers(rs.getInt("reservations"));
+                    list.add(r);
+                    count++;
+                    System.out.println("[ReportDao] listReservationsSummary() - Vuelo: " + r.getFlightCode() + ", Aerolínea: " + r.getAirline() + ", Destino: " + r.getDestination() + ", Reservaciones: " + r.getPassengers());
+                }
+                System.out.println("[ReportDao] listReservationsSummary() - Total vuelos: " + count);
             }
             conn.commit();
 
         } catch (SQLException e) {
+            System.err.println("[ReportDao] listReservationsSummary() - ERROR: " + e.getMessage());
             logger.error("Error al generar resumen de reservaciones", e);
         }
         return list;
@@ -214,42 +251,83 @@ public class ReportDao {
      */
     public List<ReportData> listCheckinsSummary(java.sql.Date startDate, java.sql.Date endDate) {
         List<ReportData> list = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("""
-            SELECT f.flight_number,
-                   COUNT(DISTINCT c.checkin_id) AS checkins,
-                   ISNULL(COUNT(b.baggage_id),0) AS baggage_count
-            FROM Flights f
-            LEFT JOIN Reservations r ON r.flight_id = f.flight_id
-            LEFT JOIN CheckIns c ON c.reservation_id = r.reservation_id
-            LEFT JOIN Baggage b ON b.checkin_id = c.checkin_id
-            GROUP BY f.flight_number
-            ORDER BY f.flight_number
-        """);
-
+        
+        String sql;
         if (startDate != null || endDate != null) {
-            sql.insert(sql.indexOf("GROUP BY"), "WHERE (1=1 "
-                    + (startDate != null ? "AND CAST(c.checkin_time AS DATE) >= '" + startDate + "'" : "")
-                    + (endDate != null ? " AND CAST(c.checkin_time AS DATE) <= '" + endDate + "'" : "")
-                    + ") ");
+            // Con filtro de fechas
+            sql = """
+                SELECT f.flight_number, a.name AS airline, d.city AS destination,
+                       COUNT(DISTINCT c.checkin_id) AS checkins,
+                       ISNULL(COUNT(DISTINCT b.baggage_id),0) AS baggage_count,
+                       ISNULL(SUM(b.weight), 0) AS total_weight
+                FROM Flights f
+                INNER JOIN Airlines a ON f.airline_id = a.airline_id
+                INNER JOIN Destinations d ON f.destination_id = d.destination_id
+                LEFT JOIN Reservations r ON r.flight_id = f.flight_id
+                LEFT JOIN CheckIns c ON c.reservation_id = r.reservation_id AND c.status = 'Checked-in'
+                LEFT JOIN Baggage b ON b.checkin_id = c.checkin_id
+                WHERE (1=1
+                    """ + (startDate != null ? "AND CAST(c.checkin_time AS DATE) >= ?" : "") + """
+                    """ + (endDate != null ? "AND CAST(c.checkin_time AS DATE) <= ?" : "") + """
+                )
+                GROUP BY f.flight_number, a.name, d.city
+                ORDER BY f.flight_number
+            """;
         } else {
-            sql.insert(sql.indexOf("GROUP BY"), "WHERE CAST(f.departure_time AS DATE) = CAST(GETDATE() AS DATE) ");
+            // Sin filtro: incluir todos los check-ins por vuelo
+            sql = """
+                SELECT f.flight_number, a.name AS airline, d.city AS destination,
+                       COUNT(DISTINCT c.checkin_id) AS checkins,
+                       ISNULL(COUNT(DISTINCT b.baggage_id),0) AS baggage_count,
+                       ISNULL(SUM(b.weight), 0) AS total_weight
+                FROM Flights f
+                INNER JOIN Airlines a ON f.airline_id = a.airline_id
+                INNER JOIN Destinations d ON f.destination_id = d.destination_id
+                LEFT JOIN Reservations r ON r.flight_id = f.flight_id
+                LEFT JOIN CheckIns c ON c.reservation_id = r.reservation_id AND c.status = 'Checked-in'
+                LEFT JOIN Baggage b ON b.checkin_id = c.checkin_id
+                GROUP BY f.flight_number, a.name, d.city
+                ORDER BY f.flight_number
+            """;
         }
 
-
         try (Connection conn = DBConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql.toString())) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                ReportData r = new ReportData();
-                r.setFlightCode(rs.getString("flight_number"));
-                r.setPassengers(rs.getInt("checkins"));
-                r.setBaggageCount(rs.getInt("baggage_count"));
-                list.add(r);
+            int paramIndex = 1;
+            if (startDate != null || endDate != null) {
+                if (startDate != null) {
+                    pstmt.setDate(paramIndex++, startDate);
+                    System.out.println("[ReportDao] listCheckinsSummary() - Filtro startDate: " + startDate);
+                }
+                if (endDate != null) {
+                    pstmt.setDate(paramIndex++, endDate);
+                    System.out.println("[ReportDao] listCheckinsSummary() - Filtro endDate: " + endDate);
+                }
+            } else {
+                System.out.println("[ReportDao] listCheckinsSummary() - Sin filtro, mostrando todos los datos");
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                int count = 0;
+                while (rs.next()) {
+                    ReportData r = new ReportData();
+                    r.setFlightCode(rs.getString("flight_number"));
+                    r.setAirline(rs.getString("airline"));
+                    r.setDestination(rs.getString("destination"));
+                    r.setPassengers(rs.getInt("checkins"));
+                    r.setBaggageCount(rs.getInt("baggage_count"));
+                    r.setTotalWeight(rs.getDouble("total_weight"));
+                    list.add(r);
+                    count++;
+                    System.out.println("[ReportDao] listCheckinsSummary() - Vuelo: " + r.getFlightCode() + ", Aerolínea: " + r.getAirline() + ", Destino: " + r.getDestination() + ", Check-ins: " + r.getPassengers() + ", Equipaje: " + r.getBaggageCount() + ", Peso: " + r.getTotalWeight() + " kg");
+                }
+                System.out.println("[ReportDao] listCheckinsSummary() - Total vuelos: " + count);
             }
             conn.commit();
 
         } catch (SQLException e) {
+            System.err.println("[ReportDao] listCheckinsSummary() - ERROR: " + e.getMessage());
             logger.error("Error al generar resumen de checkins", e);
         }
         return list;

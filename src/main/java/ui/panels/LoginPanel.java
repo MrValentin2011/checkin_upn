@@ -4,7 +4,12 @@ import javax.swing.*;
 import java.awt.*; // Importar AWT para Font, GridBagLayout, etc.
 import service.impl.AuthService;
 import ui.frames.MainFrame;
+import ui.dialogs.PasswordRecoveryDialog;
+import ui.dialogs.PasswordResetDialog;
 import model.User;
+import config.app.SessionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoginPanel extends JPanel {
     private JTextField txtUser;
@@ -12,6 +17,7 @@ public class LoginPanel extends JPanel {
     private JButton btnLogin;
     private final AuthService authService;
     private final MainFrame mainFrame;
+    private static final Logger logger = LoggerFactory.getLogger(LoginPanel.class);
 
     public LoginPanel(MainFrame frame) {
         this.mainFrame = frame;
@@ -88,8 +94,38 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(15, 0, 0, 0); // Padding superior
         formPanel.add(btnLogin, gbc);
 
+        // --- 6. Link de recuperación de contraseña ---
+        JButton btnForgotPassword = new JButton("¿Olvidaste tu contraseña?");
+        btnForgotPassword.setContentAreaFilled(false);
+        btnForgotPassword.setBorderPainted(false);
+        btnForgotPassword.setForeground(new Color(52, 152, 219));
+        btnForgotPassword.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnForgotPassword.setFont(new Font("Arial", Font.PLAIN, 11));
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 0, 0, 0);
+        formPanel.add(btnForgotPassword, gbc);
+
+        // --- 7. Link para cambiar contraseña con token ---
+        JButton btnResetWithToken = new JButton("Cambiar contraseña con token");
+        btnResetWithToken.setContentAreaFilled(false);
+        btnResetWithToken.setBorderPainted(false);
+        btnResetWithToken.setForeground(new Color(40, 167, 69));
+        btnResetWithToken.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnResetWithToken.setFont(new Font("Arial", Font.PLAIN, 11));
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(5, 0, 0, 0);
+        formPanel.add(btnResetWithToken, gbc);
+
         // --- ACCIONES (Listeners) ---
         btnLogin.addActionListener(e -> login());
+        btnForgotPassword.addActionListener(e -> openPasswordRecovery());
+        btnResetWithToken.addActionListener(e -> openPasswordReset());
         
         // BONUS: Permitir login con "Enter" en el campo de contraseña
         txtPass.addActionListener(e -> login());
@@ -105,15 +141,76 @@ public class LoginPanel extends JPanel {
             String password = new String(txtPass.getPassword());
             
             if (username.isBlank() || password.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Usuario y contraseña no pueden estar vacíos.", "Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Usuario y contraseña no pueden estar vacíos.", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             User u = authService.login(username, password);
-            JOptionPane.showMessageDialog(this, "Bienvenido " + u.getUsername());
-            mainFrame.showPanel("dashboard");
+            SessionManager.getInstance().setCurrentUser(u);  // Guardar usuario en sesión
+            JOptionPane.showMessageDialog(this, "Bienvenido " + u.getUsername(), "Inicio de Sesión", JOptionPane.INFORMATION_MESSAGE);
+            mainFrame.loadDashboard();
+
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de Autenticación", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Abre el diálogo para solicitar recuperación de contraseña
+     * El usuario ingresa su email y recibe un token para cambiar su contraseña
+     */
+    private void openPasswordRecovery() {
+        try {
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            PasswordRecoveryDialog dialog = new PasswordRecoveryDialog(parentFrame);
+            dialog.setVisible(true);
+            
+            if (dialog.isTokenSent()) {
+                int option = JOptionPane.showConfirmDialog(this,
+                    "Token enviado a tu email.\n¿Deseas cambiar tu contraseña ahora?",
+                    "Token Enviado",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+                if (option == JOptionPane.YES_OPTION) {
+                    openPasswordReset();
+                }
+            }
+        } catch (Exception ex) {
+            logger.error("Error abriendo diálogo de recuperación", ex);
+            JOptionPane.showMessageDialog(this,
+                "Error al abrir el diálogo de recuperación: " + ex.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Abre el diálogo para cambiar contraseña usando un token
+     * El usuario pega el token recibido por email e ingresa su nueva contraseña
+     */
+    private void openPasswordReset() {
+        try {
+            JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            PasswordResetDialog dialog = new PasswordResetDialog(parentFrame);
+            dialog.setVisible(true);
+            
+            if (dialog.isPasswordReset()) {
+                JOptionPane.showMessageDialog(this,
+                    "Contraseña actualizada exitosamente.\nPuedes iniciar sesión con tu nueva contraseña.",
+                    "Contraseña Actualizada",
+                    JOptionPane.INFORMATION_MESSAGE);
+                // Limpiar campos de login
+                txtUser.setText("");
+                txtPass.setText("");
+                txtUser.requestFocus();
+            }
+        } catch (Exception ex) {
+            logger.error("Error abriendo diálogo de reset de contraseña", ex);
+            JOptionPane.showMessageDialog(this,
+                "Error al abrir el diálogo de reset: " + ex.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
 }

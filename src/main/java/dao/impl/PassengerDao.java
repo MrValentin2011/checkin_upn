@@ -102,9 +102,16 @@ public class PassengerDao {
                 try (ResultSet keys = ps.getGeneratedKeys()) {
                     if (keys.next()) p.setId(keys.getInt(1));
                 }
+                conn.commit();
+                System.out.println("[PassengerDao] insert() - Pasajero insertado exitosamente. ID: " + p.getId());
                 return true;
+            } else {
+                conn.rollback();
+                System.out.println("[PassengerDao] insert() - ERROR: No se insertaron filas");
+                return false;
             }
         } catch (SQLException e) {
+            System.out.println("[PassengerDao] insert() - ERROR SQL: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -128,8 +135,19 @@ public class PassengerDao {
             ps.setString(7, p.getPhone());
             ps.setInt(8, p.getFrequentCounter());
             ps.setInt(9, p.getId());
-            return ps.executeUpdate() > 0;
+            
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                conn.commit();
+                System.out.println("[PassengerDao] update() - Pasajero ID " + p.getId() + " actualizado exitosamente");
+                return true;
+            } else {
+                conn.rollback();
+                System.out.println("[PassengerDao] update() - ERROR: No se actualizaron filas para ID " + p.getId());
+                return false;
+            }
         } catch (SQLException e) {
+            System.out.println("[PassengerDao] update() - ERROR SQL: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -141,10 +159,17 @@ public class PassengerDao {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                conn.commit();
+                System.out.println("[PassengerDao] delete() - Pasajero ID " + id + " eliminado exitosamente");
+                return true;
+            } else {
+                System.out.println("[PassengerDao] delete() - ERROR: No se eliminó ningún pasajero para ID " + id);
+                return false;
+            }
         } catch (SQLException e) {
-            // por ejemplo, violación de FK con Reservations
-            System.err.println("⚠️ No se pudo eliminar pasajero ID " + id + ": " + e.getMessage());
+            System.err.println("[PassengerDao] delete() - ERROR SQL al eliminar pasajero ID " + id + ": " + e.getMessage());
         }
         return false;
     }
@@ -166,6 +191,31 @@ public class PassengerDao {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Calcula la cantidad de check-ins completados (Checked-in) asociados
+     * a las reservas del pasajero. No modifica nada en la BD.
+     */
+    public int computeFrequentCount(int passengerId) {
+        String sql = "SELECT COUNT(1) AS cnt FROM CheckIns ci " +
+                     "JOIN Reservations r ON ci.reservation_id = r.reservation_id " +
+                     "WHERE r.passenger_id = ? AND ci.status = 'Checked-in'";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, passengerId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt("cnt");
+                    System.out.println("[PassengerDao] computeFrequentCount() - Pasajero ID " + passengerId + " tiene " + count + " check-ins completados");
+                    return count;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("[PassengerDao] computeFrequentCount() - ERROR SQL al calcular contador para ID " + passengerId + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private Passenger map(ResultSet rs) throws SQLException {

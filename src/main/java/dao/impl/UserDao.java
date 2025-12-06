@@ -57,6 +57,42 @@ public class UserDao {
         return null;
     }
 
+    /**
+     * Busca un usuario por su email
+     * @param email Email del usuario
+     * @return Usuario encontrado o null si no existe
+     */
+    public User findByEmail(String email) {
+        String sql = "SELECT * FROM Users WHERE email = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return map(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Actualiza la contraseña hasheada de un usuario
+     * @param userId ID del usuario
+     * @param hashedPassword Nueva contraseña hasheada
+     * @return true si la actualización fue exitosa, false caso contrario
+     */
+    public boolean updatePassword(int userId, String hashedPassword) {
+        String sql = "UPDATE Users SET password_hash = ? WHERE user_id = ?";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, hashedPassword);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public boolean insert(User u) {
         String sql = "INSERT INTO Users (username, password_hash, full_name, email, role_id, active) VALUES (?,?,?,?,?,?)";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {

@@ -29,11 +29,16 @@ public class OfflineDBManager {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 operation_type TEXT NOT NULL,
                 data_json TEXT NOT NULL,
-                status TEXT DEFAULT 'PENDING'
+                status TEXT DEFAULT 'PENDING',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                synced_at TIMESTAMP
             );
         """;
         try (Connection conn = DriverManager.getConnection(DB_URL); Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
+            // Crear índices para optimizar búsquedas
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_status ON pending_operations(status)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_created_at ON pending_operations(created_at)");
         } catch (SQLException e) {
             System.err.println("Error creando estructura local: " + e.getMessage());
         }
@@ -79,17 +84,33 @@ public class OfflineDBManager {
     /**
      * Marca una operación como sincronizada correctamente.
      *
-     * @param dataJson Identificador (JSON exacto o hash) de la operación
-     * sincronizada.
+     * @param operationId ID de la operación sincronizada
      */
-    public void marcarComoSincronizado(String dataJson) {
-        String sql = "UPDATE pending_operations SET status = 'SYNCED' WHERE data_json = ?";
+    public void marcarComoSincronizado(int operationId) {
+        String sql = "UPDATE pending_operations SET status = 'SYNCED', synced_at = CURRENT_TIMESTAMP WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, dataJson);
-            ps.executeUpdate();
-            System.out.println("✅ Operación marcada como sincronizada.");
+            ps.setInt(1, operationId);
+            int updated = ps.executeUpdate();
+            if (updated > 0) {
+                System.out.println("✅ Operación " + operationId + " marcada como sincronizada");
+            }
         } catch (SQLException e) {
             System.err.println("Error al marcar como sincronizado: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Marca una operación como fallida (para reintentos)
+     *
+     * @param operationId ID de la operación
+     */
+    public void marcarComoFallida(int operationId) {
+        String sql = "UPDATE pending_operations SET status = 'FAILED' WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, operationId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error al marcar como fallida: " + e.getMessage());
         }
     }
 

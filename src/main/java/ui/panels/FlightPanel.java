@@ -46,7 +46,6 @@ public class FlightPanel extends JPanel {
         topPanel.add(btnLimpiar);
         topPanel.add(btnNuevo);
         topPanel.add(btnEditar);
-        topPanel.add(btnEliminar);
         add(topPanel, BorderLayout.NORTH);
 
         // 🧾 Tabla
@@ -109,7 +108,7 @@ public class FlightPanel extends JPanel {
     private void editarSeleccionado() {
         int row = table.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un vuelo para editar");
+            JOptionPane.showMessageDialog(this, "Seleccione un vuelo para editar", "Selección Requerida", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -136,7 +135,7 @@ public class FlightPanel extends JPanel {
             dialog.setVisible(true);
             cargarVuelos("");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al abrir formulario: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al abrir formulario: " + ex.getMessage(), "Error al Editar", JOptionPane.ERROR_MESSAGE);
         }
     }
 

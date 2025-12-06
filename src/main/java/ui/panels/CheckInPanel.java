@@ -108,7 +108,7 @@ public class CheckInPanel extends JPanel {
         String pnr = txtPnr.getText().trim();
 
         if (pnr.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Ingrese PNR");
+            JOptionPane.showMessageDialog(this, "Ingrese PNR", "Campo Requerido", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -116,7 +116,7 @@ public class CheckInPanel extends JPanel {
             currentReservation = checkInService.buscarReservaPorPNR(pnr);
             mostrarReserva();
         } catch (CheckInException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error en Búsqueda", JOptionPane.ERROR_MESSAGE);
             currentReservation = null;
             mostrarReserva();
         }
@@ -126,7 +126,7 @@ public class CheckInPanel extends JPanel {
         String doc = txtDoc.getText().trim();
 
         if (doc.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Ingrese documento");
+            JOptionPane.showMessageDialog(this, "Ingrese documento", "Campo Requerido", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -134,7 +134,7 @@ public class CheckInPanel extends JPanel {
             currentReservation = checkInService.buscarReservaPorDoc(doc);
             mostrarReserva();
         } catch (CheckInException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error en Búsqueda", JOptionPane.ERROR_MESSAGE);
             currentReservation = null;
             mostrarReserva();
         }
@@ -177,102 +177,7 @@ public class CheckInPanel extends JPanel {
         btnManualSeat.setEnabled(enabled);
         btnComplete.setEnabled(enabled);
     }
-    /*
-    // =====================================================
-    // VALIDAR DOCUMENTO
-    // =====================================================
-    private void validarDoc() {
-        if (currentReservation == null) {
-            JOptionPane.showMessageDialog(this, "Debe buscar una reserva.");
-            return;
-        }
 
-        boolean ok = checkInService.validarDocumento(currentReservation);
-
-        JOptionPane.showMessageDialog(
-                this,
-                ok ? "Documento válido ✔" : "El documento no coincide con la reserva ❌"
-        );
-    }
-
-    // =====================================================
-    // ASIENTO AUTOMÁTICO
-    // =====================================================
-    private void asignarAutomatico() {
-        if (currentReservation == null) return;
-
-        try {
-            Integer seatId = checkInService.asignarAsientoAutomatico(
-                    currentReservation.getFlightId(),
-                    currentReservation.getId()
-            );
-
-            if (seatId == null) {
-                JOptionPane.showMessageDialog(this, "No hay asientos disponibles.");
-                return;
-            }
-
-            String code = fetchSeatCode(seatId);
-
-            JOptionPane.showMessageDialog(this,
-                    "Asiento asignado automáticamente: " + code);
-
-            mostrarReserva();
-        } catch (CheckInException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    // =====================================================
-    // ASIENTO MANUAL
-    // =====================================================
-    private void asignarManual() {
-
-        if (currentReservation == null) return;
-
-        List<Seat> seats = checkInService.listarAsientosDisponibles(currentReservation.getFlightId());
-        if (seats.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay asientos disponibles");
-            return;
-        }
-
-        Object[] opciones = seats.stream().map(Seat::getSeatCode).toArray();
-        String seleccion = (String) JOptionPane.showInputDialog(
-                this,
-                "Seleccione un asiento disponible:",
-                "Asignación Manual",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                opciones,
-                opciones[0]
-        );
-
-        if (seleccion == null) return;
-
-        Integer seatId = seats.stream()
-                .filter(s -> seleccion.equals(s.getSeatCode()))
-                .map(Seat::getId)
-                .findFirst()
-                .orElse(null);
-
-        if (seatId == null) {
-            JOptionPane.showMessageDialog(this, "Error: asiento no válido.");
-            return;
-        }
-
-        try {
-            boolean ok = checkInService.asignarAsientoManual(seatId, currentReservation.getId());
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    ok ? "Asiento asignado: " + seleccion : "No se pudo asignar (ocupado por otro agente)."
-            );
-
-            mostrarReserva();
-        } catch (CheckInException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
 
     // =====================================================
     // COMPLETAR CHECK-IN
@@ -530,22 +435,7 @@ public class CheckInPanel extends JPanel {
         }
     }
 
-    // =====================================================
-    // OBTENER CÓDIGO DE ASIENTO
-    // =====================================================
-    private String fetchSeatCode(int seatId) {
-        try (var conn = config.db.DBConnection.getConnection();
-             var ps = conn.prepareStatement("SELECT seat_code FROM Seats WHERE seat_id = ?")) {
 
-            ps.setInt(1, seatId);
-            var rs = ps.executeQuery();
-            if (rs.next()) return rs.getString("seat_code");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     // Helper para crear item de leyenda (color + texto)
     private JComponent createLegendItem(Color color, String text) {

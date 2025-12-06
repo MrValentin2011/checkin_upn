@@ -1,6 +1,9 @@
 package ui.dialogs;
 
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.time.LocalDate;
 
@@ -26,14 +29,14 @@ public class PassengerForm extends JDialog {
     }
 
     // Campos de UI
-    private final JTextField txtFirst = new JTextField(16);
-    private final JTextField txtLast  = new JTextField(16);
-    private final JComboBox<String> cbType = new JComboBox<>(new String[]{"DNI","Passport"});
-    private final JTextField txtDoc   = new JTextField(16);
-    private final JTextField txtDob   = new JTextField(10); // yyyy-MM-dd (opcional)
-    private final JTextField txtEmail = new JTextField(18);
-    private final JTextField txtPhone = new JTextField(14);
-    private final JSpinner spFreq     = new JSpinner(new SpinnerNumberModel(0, 0, 1_000_000, 1));
+    private final JTextField txtFirst;
+    private final JTextField txtLast;
+    private final JComboBox<String> cbType;
+    private final JTextField txtDoc;
+    private final JTextField txtDob;
+    private final JTextField txtEmail;
+    private final JTextField txtPhone;
+    private final JSpinner spFreq;
 
     private boolean accepted = false;
 
@@ -47,6 +50,24 @@ public class PassengerForm extends JDialog {
         setTitle(data == null ? "Nuevo Pasajero" : "Editar Pasajero");
         setSize(420, 400);
         setLocationRelativeTo(null);
+        
+        // Inicializar campos ANTES de buildUI
+        txtFirst = new JTextField(16);
+        txtLast = new JTextField(16);
+        cbType = new JComboBox<>(new String[]{"DNI", "Passport"});
+        txtDoc = new JTextField(16);
+        txtDob = new JTextField(10); // yyyy-MM-dd (opcional)
+        txtEmail = new JTextField(18);
+        txtPhone = new JTextField(14);
+        spFreq = new JSpinner(new SpinnerNumberModel(0, 0, 1_000_000, 1));
+        
+        // Aplicar restricciones de longitud
+        txtDoc.setDocument(new LimitDocument(12));
+        txtPhone.setDocument(new LimitDocument(9));
+        
+        // Frecuente no editable (se calcula desde DB)
+        spFreq.setEnabled(false);
+        
         buildUI();
         preload(data);
     }
@@ -104,6 +125,27 @@ public class PassengerForm extends JDialog {
         spFreq.setValue(d.frequentCounter != null ? d.frequentCounter : 0);
     }
 
+    // Document simple para limitar longitud
+    private static class LimitDocument extends PlainDocument {
+        private final int max;
+        public LimitDocument(int max) { this.max = max; }
+        @Override
+        public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+            if (str == null) return;
+            int newLen = getLength() + str.length();
+            if (newLen <= max) {
+                super.insertString(offs, str, a);
+            } else {
+                // Truncar si excede el máximo
+                int remaining = max - getLength();
+                if (remaining > 0) {
+                    String cut = str.substring(0, Math.min(remaining, str.length()));
+                    super.insertString(offs, cut, a);
+                }
+            }
+        }
+    }
+
     private void onAccept() {
         firstName = txtFirst.getText().trim();
         lastName  = txtLast.getText().trim();
@@ -119,8 +161,13 @@ public class PassengerForm extends JDialog {
         }
         String dobStr = txtDob.getText().trim();
         if (!dobStr.isEmpty()) {
-            try { dob = LocalDate.parse(dobStr); }
-            catch (Exception ex) { JOptionPane.showMessageDialog(this, "Fecha inválida (use yyyy-MM-dd)"); return; }
+            try { 
+                dob = LocalDate.parse(dobStr); 
+            }
+            catch (Exception ex) { 
+                JOptionPane.showMessageDialog(this, "Fecha inválida (use yyyy-MM-dd)"); 
+                return; 
+            }
         } else {
             dob = null;
         }
