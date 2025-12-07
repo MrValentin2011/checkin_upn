@@ -123,4 +123,14 @@ public class AuditService {
         String details = "Username=" + username + " | Success=" + success;
         registrarAccion(userId, action, details);
     }
+
+    /**
+     * Registra cacelación de check-in por agente.
+     */
+    public void logCheckInCancellation(Integer userId, Integer reservationId) {
+        String action = "CHECKIN_CANCELLED";
+        String details = "ReservationID=" + reservationId + " | Check-in cancelado por el agente.";
+        registrarAccion(userId, action, details);
+    }
+
 }

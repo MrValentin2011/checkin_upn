@@ -13,7 +13,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -91,12 +91,6 @@ public class HelpPanel extends JPanel {
         JButton btnSearch = new JButton("Buscar");
         btnSearch.addActionListener(e -> performSearch());
         panel.add(btnSearch, gbc);
-
-        // Botón de popular
-        gbc.gridx = 5;
-        JButton btnPopular = new JButton("Popular");
-        btnPopular.addActionListener(e -> showPopularFAQs());
-        panel.add(btnPopular, gbc);
 
         return panel;
     }
@@ -223,41 +217,10 @@ public class HelpPanel extends JPanel {
         FAQ selected = faqList.getSelectedValue();
         if (selected != null) {
             currentFaqId = selected.getFaqId();
-            FAQ fullFAQ = faqService.getFAQById(selected.getFaqId());
+            FAQ fullFAQ = faqService.getFAQById(currentFaqId);
 
             if (fullFAQ != null) {
-                String html = String.format("""
-                    <html>
-                    <head>
-                        <style>
-                            body { font-family: Arial, sans-serif; margin: 10px; }
-                            h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-                            .category { color: #7f8c8d; font-size: 12px; }
-                            .answer { margin-top: 15px; line-height: 1.6; }
-                            .stats { margin-top: 20px; padding: 10px; background: #ecf0f1; border-radius: 5px; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="category">Categoría: %s</div>
-                        <h1>%s</h1>
-                        <div class="answer">%s</div>
-                        <div class="stats">
-                            <strong>Vistas:</strong> %d | 
-                            <strong>Útil:</strong> %d | 
-                            <strong>No útil:</strong> %d
-                        </div>
-                    </body>
-                    </html>
-                    """,
-                    fullFAQ.getCategory(),
-                    fullFAQ.getQuestion(),
-                    fullFAQ.getAnswer(),
-                    fullFAQ.getViews(),
-                    fullFAQ.getHelpfulYes(),
-                    fullFAQ.getHelpfulNo()
-                );
-
-                answerPane.setText(html);
+                updateHtmlAnswer(fullFAQ);
                 helpfulLabel.setVisible(false);
             }
         }
@@ -265,6 +228,7 @@ public class HelpPanel extends JPanel {
 
     private void markHelpful(boolean helpful) {
         if (currentFaqId > 0) {
+
             if (helpful) {
                 faqService.markFAQHelpful(currentFaqId);
                 helpfulLabel.setText("✓ Gracias, tu feedback nos ayuda a mejorar");
@@ -272,34 +236,69 @@ public class HelpPanel extends JPanel {
                 faqService.markFAQNotHelpful(currentFaqId);
                 helpfulLabel.setText("✓ Gracias por tu feedback, intentaremos mejorar");
             }
+
             helpfulLabel.setVisible(true);
 
-            // Refrescar la vista para mostrar nuevas estadísticas
-            SwingUtilities.invokeLater(() -> {
-                javax.swing.Timer timer = new javax.swing.Timer(2000, e -> {
-                    helpfulLabel.setVisible(false);
-                    showSelectedFAQ();
-                });
-                timer.setRepeats(false);
-                timer.start();
-            });
+            // Refrescar inmediatamente usando el registro actualizado
+            FAQ refreshed = faqService.getFAQById(currentFaqId);
+            if (refreshed != null) {
+                updateHtmlAnswer(refreshed);
+            }
+
+            // Ocultar mensaje después de 2s
+            new javax.swing.Timer(2000, e -> helpfulLabel.setVisible(false))
+                    .start();
         }
+    }
+
+    private void updateHtmlAnswer(FAQ faq) {
+        String html = String.format("""
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 10px; }
+                        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                        .category { color: #7f8c8d; font-size: 12px; }
+                        .answer { margin-top: 15px; line-height: 1.6; }
+                        .stats { margin-top: 20px; padding: 10px; background: #ecf0f1; border-radius: 5px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="category">Categoría: %s</div>
+                    <h1>%s</h1>
+                    <div class="answer">%s</div>
+                    <div class="stats">
+                        <strong>Vistas:</strong> %d |
+                        <strong>Útil:</strong> %d |
+                        <strong>No útil:</strong> %d
+                    </div>
+                </body>
+                </html>
+                """,
+                faq.getCategory(),
+                faq.getQuestion(),
+                faq.getAnswer(),
+                faq.getViews(),
+                faq.getHelpfulYes(),
+                faq.getHelpfulNo());
+
+        answerPane.setText(html);
     }
 
     private void showContactSupport() {
         String message = """
-            Para contactar con nuestro equipo de soporte:
-            
-            📧 Email: soporte@aerocheck.com
-            📞 Teléfono: +1-800-AERO-HELP (1-800-237-6435)
-            💬 Chat en vivo: Disponible de Lunes a Viernes, 8 AM - 6 PM
-            🌐 Portal de soporte: https://support.aerocheck.com
-            
-            Tiempo de respuesta promedio:
-            • Email: 24 horas
-            • Chat: 5 minutos
-            • Teléfono: 15 minutos
-            """;
+                Para contactar con nuestro equipo de soporte:
+
+                📧 Email: soporte@aerocheck.com
+                📞 Teléfono: +1-800-AERO-HELP (1-800-237-6435)
+                💬 Chat en vivo: Disponible de Lunes a Viernes, 8 AM - 6 PM
+                🌐 Portal de soporte: https://support.aerocheck.com
+
+                Tiempo de respuesta promedio:
+                • Email: 24 horas
+                • Chat: 5 minutos
+                • Teléfono: 15 minutos
+                """;
 
         JTextArea textArea = new JTextArea(message);
         textArea.setEditable(false);
@@ -316,54 +315,104 @@ public class HelpPanel extends JPanel {
     private void downloadManual() {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Descargar manual del usuario");
+        chooser.setSelectedFile(new File("MANUAL DE USO.pdf"));
         chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos PDF", "pdf"));
 
         if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = chooser.getSelectedFile();
+
+            if (!selectedFile.getName().toLowerCase().endsWith(".pdf")) {
+                selectedFile = new File(selectedFile.getAbsolutePath() + ".pdf");
+            }
+
             try {
-                String manualContent = generateManualPDF();
-                // En producción, esto generaría un PDF real
-                java.nio.file.Files.write(chooser.getSelectedFile().toPath(), 
-                    manualContent.getBytes());
-                JOptionPane.showMessageDialog(this, 
-                    "Manual descargado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                generatePDF(selectedFile.getAbsolutePath());
+                JOptionPane.showMessageDialog(this, "Manual descargado correctamente",
+                        "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
             } catch (Exception e) {
-                logger.error("Error descargando manual", e);
-                JOptionPane.showMessageDialog(this, 
-                    "Error al descargar manual", "Error", JOptionPane.ERROR_MESSAGE);
+                logger.error("Error creando PDF", e);
+                JOptionPane.showMessageDialog(this, "Error al generar PDF",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    private String generateManualPDF() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MANUAL DEL USUARIO - AEROCHECK\n");
-        sb.append("=".repeat(60)).append("\n\n");
+    private void generatePDF(String path) throws Exception {
+        com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+        com.itextpdf.text.pdf.PdfWriter.getInstance(document, new java.io.FileOutputStream(path));
 
-        sb.append("1. BIENVENIDA\n");
-        sb.append("Bienvenido al Sistema de Check-In Aeroportuario AEROCHECK.\n");
-        sb.append("Este manual te ayudará a utilizar todas las funciones disponibles.\n\n");
+        document.open();
 
-        sb.append("2. INICIO DE SESIÓN\n");
-        sb.append("Ingresa tu usuario y contraseña en la pantalla de login.\n");
-        sb.append("Si olvidaste tu contraseña, usa la opción de recuperación.\n\n");
+        // Título elegante
+        com.itextpdf.text.Font titleFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 22,
+                com.itextpdf.text.Font.BOLD);
+        com.itextpdf.text.Paragraph title = new com.itextpdf.text.Paragraph("AEROCHECK - MANUAL DE USUARIO", titleFont);
+        title.setAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
+        document.add(title);
 
-        sb.append("3. REALIZAR CHECK-IN\n");
-        sb.append("Navega al panel de Check-In desde el menú principal.\n");
-        sb.append("Ingresa los datos del pasajero y reserva.\n");
-        sb.append("Confirma el check-in en la pantalla de resumen.\n\n");
+        document.add(new com.itextpdf.text.Paragraph("\n"));
 
-        sb.append("4. GESTIÓN DE EQUIPAJE\n");
-        sb.append("Registra tu equipaje en el panel de Equipaje.\n");
-        sb.append("Verifica límites de peso según tu clase de vuelo.\n\n");
+        // Contenido general
+        com.itextpdf.text.Font headerFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 16,
+                com.itextpdf.text.Font.BOLD);
 
-        sb.append("5. CONSULTAR VUELOS\n");
-        sb.append("Busca información de vuelos en el panel de Vuelos.\n");
-        sb.append("Consulta horarios, puertas y estados en tiempo real.\n\n");
+        com.itextpdf.text.Font textFont = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 12);
 
-        sb.append("6. OBTENER AYUDA\n");
-        sb.append("Usa el panel de Ayuda para consultar preguntas frecuentes.\n");
-        sb.append("Contacta al equipo de soporte si necesitas asistencia adicional.\n\n");
+        addSection(document, "1. Bienvenida",
+                "Bienvenido al sistema AeroCheck. Este manual explica las funciones del sistema,\n" +
+                        "incluyendo check-in, gestión de equipaje, vuelos, soporte técnico y más.",
+                headerFont, textFont);
 
-        return sb.toString();
+        addSection(document, "2. Inicio de sesión",
+                "• Ingresa tu usuario y contraseña.\n" +
+                        "• Usa '¿Olvidaste tu contraseña?' si necesitas recuperar el acceso.\n",
+                headerFont, textFont);
+
+        addSection(document, "3. Realizar Check-In",
+                "• Ingresa los datos del pasajero.\n" +
+                        "• Verifica la información.\n" +
+                        "• El sistema generará tu boarding pass.\n",
+                headerFont, textFont);
+
+        addSection(document, "4. Gestión de Equipaje",
+                "• Registra equipaje de mano y equipaje facturado.\n" +
+                        "• El sistema validará peso y restricciones.\n",
+                headerFont, textFont);
+
+        addSection(document, "5. Consulta de vuelos",
+                "• Revisa puertas de embarque, retrasos y horario actualizado.\n",
+                headerFont, textFont);
+
+        addSection(document, "6. Centro de Ayuda y FAQ",
+                "• Explora preguntas frecuentes agrupadas por categoría.\n" +
+                        "• Usa el buscador inteligente.\n",
+                headerFont, textFont);
+
+        addSection(document, "7. Valoración de respuestas (👍 / 👎)",
+                "Puedes marcar si una respuesta fue útil. Esto mejora las recomendaciones.\n",
+                headerFont, textFont);
+
+        addSection(document, "8. Contacto de soporte",
+                "Email: soporte@aerocheck.com\n" +
+                        "Teléfono: 1-800-AERO-HELP\n" +
+                        "Horario: Lunes a Viernes - 8 AM a 6 PM\n",
+                headerFont, textFont);
+
+        document.close();
     }
+
+    private void addSection(com.itextpdf.text.Document doc, String title, String text,
+            com.itextpdf.text.Font titleFont, com.itextpdf.text.Font textFont)
+            throws com.itextpdf.text.DocumentException {
+
+        com.itextpdf.text.Paragraph t = new com.itextpdf.text.Paragraph(title, titleFont);
+        t.setSpacingBefore(10);
+        doc.add(t);
+
+        com.itextpdf.text.Paragraph p = new com.itextpdf.text.Paragraph(text, textFont);
+        p.setSpacingAfter(10);
+        doc.add(p);
+    }
+
 }

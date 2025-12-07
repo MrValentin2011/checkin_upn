@@ -49,8 +49,8 @@ public class FlightPanel extends JPanel {
         add(topPanel, BorderLayout.NORTH);
 
         // 🧾 Tabla
-        model = new DefaultTableModel(new Object[]{
-            "ID", "Código", "Aerolínea", "Origen", "Destino", "Salida", "Llegada", "Estado", "Capacidad"
+        model = new DefaultTableModel(new Object[] {
+                "ID", "Código", "Aerolínea", "Origen", "Destino", "Salida", "Llegada", "Estado", "Capacidad"
         }, 0);
         table = new JTable(model);
         add(new JScrollPane(table), BorderLayout.CENTER);
@@ -63,7 +63,10 @@ public class FlightPanel extends JPanel {
 
         // 🎯 Eventos
         btnBuscar.addActionListener(e -> cargarVuelos(txtFiltro.getText()));
-        btnLimpiar.addActionListener(e -> { txtFiltro.setText(""); cargarVuelos(""); });
+        btnLimpiar.addActionListener(e -> {
+            txtFiltro.setText("");
+            cargarVuelos("");
+        });
         btnRefresh.addActionListener(e -> cargarVuelos(""));
 
         btnNuevo.addActionListener(e -> {
@@ -77,9 +80,24 @@ public class FlightPanel extends JPanel {
 
         // 🧭 Activar botones solo si hay selección
         table.getSelectionModel().addListSelectionListener(e -> {
-            boolean seleccionado = table.getSelectedRow() != -1;
-            btnEditar.setEnabled(seleccionado);
-            btnEliminar.setEnabled(seleccionado);
+            int row = table.getSelectedRow();
+            if (row == -1) {
+                btnEditar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+                return;
+            }
+
+            String estado = (String) model.getValueAt(row, 7); // columna 'Estado'
+
+            // Si el vuelo está CLOSED, desactivar edición
+            if ("CLOSED".equalsIgnoreCase(estado)) {
+                btnEditar.setEnabled(false);
+            } else {
+                btnEditar.setEnabled(true);
+            }
+
+            // Eliminar sí puede estar habilitado si tú lo decides; lo dejo habilitado
+            btnEliminar.setEnabled(true);
         });
 
         cargarVuelos("");
@@ -91,16 +109,16 @@ public class FlightPanel extends JPanel {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         for (Flight f : vuelos) {
-            model.addRow(new Object[]{
-                f.getId(),
-                f.getCode(),
-                f.getAirline(),
-                f.getOrigin(),
-                f.getDestination(),
-                f.getDepartureTime() != null ? f.getDepartureTime().format(formatter) : "-",
-                f.getArrivalTime() != null ? f.getArrivalTime().format(formatter) : "-",
-                f.getStatus(),
-                f.getCapacity()
+            model.addRow(new Object[] {
+                    f.getId(),
+                    f.getCode(),
+                    f.getAirline(),
+                    f.getOrigin(),
+                    f.getDestination(),
+                    f.getDepartureTime() != null ? f.getDepartureTime().format(formatter) : "-",
+                    f.getArrivalTime() != null ? f.getArrivalTime().format(formatter) : "-",
+                    f.getStatus(),
+                    f.getCapacity()
             });
         }
     }
@@ -108,7 +126,8 @@ public class FlightPanel extends JPanel {
     private void editarSeleccionado() {
         int row = table.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un vuelo para editar", "Selección Requerida", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleccione un vuelo para editar", "Selección Requerida",
+                    JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -135,7 +154,8 @@ public class FlightPanel extends JPanel {
             dialog.setVisible(true);
             cargarVuelos("");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al abrir formulario: " + ex.getMessage(), "Error al Editar", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al abrir formulario: " + ex.getMessage(), "Error al Editar",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

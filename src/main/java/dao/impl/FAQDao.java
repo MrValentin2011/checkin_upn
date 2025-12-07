@@ -105,23 +105,37 @@ public class FAQDao {
      * Obtiene una FAQ por ID
      */
     public FAQ findById(int faqId) {
-        String sql = "SELECT * FROM FAQ WHERE faq_id = ?";
+        String sqlUpdate = "UPDATE FAQ SET views = views + 1 WHERE faq_id = ?";
+        String sqlSelect = "SELECT * FROM FAQ WHERE faq_id = ?";
 
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection()) {
 
-            ps.setInt(1, faqId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    // Incrementar contador de vistas
-                    incrementViews(faqId);
-                    return mapResultSet(rs);
+            conn.setAutoCommit(false);
+
+            // 1. Incrementar vistas desde la MISMA conexión
+            try (PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
+                ps.setInt(1, faqId);
+                ps.executeUpdate();
+            }
+
+            // 2. Leer valores actualizados
+            FAQ faq = null;
+            try (PreparedStatement ps = conn.prepareStatement(sqlSelect)) {
+                ps.setInt(1, faqId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        faq = mapResultSet(rs);
+                    }
                 }
             }
+
+            conn.commit();
+            return faq;
+
         } catch (SQLException e) {
             logger.error("Error obteniendo FAQ", e);
+            return null;
         }
-        return null;
     }
 
     /**
@@ -205,13 +219,20 @@ public class FAQDao {
      * Obtiene FAQs más vistas
      */
     public List<FAQ> getTopViewed(int limit) {
-        String sql = "SELECT * FROM FAQ WHERE active = 1 ORDER BY views DESC LIMIT ?";
+        String sql = """
+                SELECT *
+                FROM FAQ
+                WHERE active = 1
+                ORDER BY views DESC
+                OFFSET 0 ROWS FETCH NEXT ? ROWS ONLY
+                """;
 
         List<FAQ> faqs = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, limit);
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     faqs.add(mapResultSet(rs));
@@ -228,10 +249,15 @@ public class FAQDao {
      */
     public List<FAQ> getMostHelpful(int limit) {
         String sql = """
-                SELECT * FROM FAQ
-                WHERE active = 1 AND (helpful_yes + helpful_no) > 0
-                ORDER BY (CAST(helpful_yes AS FLOAT) / (helpful_yes + helpful_no)) DESC
-                LIMIT ?
+                SELECT *,
+                       CASE
+                            WHEN (helpful_yes + helpful_no) = 0 THEN 0
+                            ELSE CAST(helpful_yes AS FLOAT) / (helpful_yes + helpful_no)
+                       END AS helpful_ratio
+                FROM FAQ
+                WHERE active = 1
+                ORDER BY helpful_ratio DESC, views DESC
+                OFFSET 0 ROWS FETCH NEXT ? ROWS ONLY
                 """;
 
         List<FAQ> faqs = new ArrayList<>();
@@ -239,6 +265,7 @@ public class FAQDao {
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, limit);
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     faqs.add(mapResultSet(rs));
@@ -276,11 +303,15 @@ public class FAQDao {
     public void markHelpful(int faqId) {
         String sql = "UPDATE FAQ SET helpful_yes = helpful_yes + 1 WHERE faq_id = ?";
 
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection()) {
 
-            ps.setInt(1, faqId);
-            ps.executeUpdate();
+            conn.setAutoCommit(true);
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, faqId);
+                ps.executeUpdate();
+            }
+
         } catch (SQLException e) {
             logger.error("Error marcando FAQ como útil", e);
         }
@@ -292,11 +323,15 @@ public class FAQDao {
     public void markNotHelpful(int faqId) {
         String sql = "UPDATE FAQ SET helpful_no = helpful_no + 1 WHERE faq_id = ?";
 
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection()) {
 
-            ps.setInt(1, faqId);
-            ps.executeUpdate();
+            conn.setAutoCommit(true);
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, faqId);
+                ps.executeUpdate();
+            }
+
         } catch (SQLException e) {
             logger.error("Error marcando FAQ como no útil", e);
         }
@@ -308,11 +343,14 @@ public class FAQDao {
     public void incrementViews(int faqId) {
         String sql = "UPDATE FAQ SET views = views + 1 WHERE faq_id = ?";
 
-        try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection()) {
 
-            ps.setInt(1, faqId);
-            ps.executeUpdate();
+            conn.setAutoCommit(true);
+
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, faqId);
+                ps.executeUpdate();
+            }
         } catch (SQLException e) {
             logger.error("Error incrementando vistas", e);
         }
@@ -324,12 +362,19 @@ public class FAQDao {
     public boolean update(FAQ faq) {
         String sql = """
                 UPDATE FAQ
-                SET category = ?, question = ?, answer = ?, keywords = ?, active = ?, updated_at = CURRENT_TIMESTAMP
+                SET category = ?,
+                    question = ?,
+                    answer = ?,
+                    keywords = ?,
+                    active = ?,
+                    updated_at = CURRENT_TIMESTAMP
                 WHERE faq_id = ?
                 """;
 
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            conn.setAutoCommit(false); // ← Asegura que la transacción se controle correctamente
 
             ps.setString(1, faq.getCategory());
             ps.setString(2, faq.getQuestion());
@@ -338,10 +383,22 @@ public class FAQDao {
             ps.setBoolean(5, faq.isActive());
             ps.setInt(6, faq.getFaqId());
 
-            return ps.executeUpdate() > 0;
+            int rows = ps.executeUpdate();
+            conn.commit(); // ← GUARDA los cambios en la BD
+
+            return rows > 0;
+
         } catch (SQLException e) {
             logger.error("Error actualizando FAQ", e);
+
+            // Intentar rollback si fue una transacción fallida
+            try (Connection rollbackConn = DBConnection.getConnection()) {
+                rollbackConn.rollback();
+            } catch (SQLException ex) {
+                logger.error("Error durante rollback", ex);
+            }
         }
+
         return false;
     }
 

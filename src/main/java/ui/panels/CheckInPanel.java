@@ -33,6 +33,7 @@ public class CheckInPanel extends JPanel {
     private final JButton btnAutoSeat;
     private final JButton btnManualSeat;
     private final JButton btnComplete;
+    private final JButton btnCancelCheckIn;
 
     public CheckInPanel() {
 
@@ -82,11 +83,20 @@ public class CheckInPanel extends JPanel {
         btnComplete = new JButton("Completar Check-In");
         btnComplete.setToolTipText("Finaliza el check-in, genera el boarding pass y el PDF");
 
+        btnCancelCheckIn = new JButton("Cancelar Check-In");
+        btnCancelCheckIn.setToolTipText("Revierte el check-in y libera el asiento");
+
         // Solo mostramos el botón para completar el check-in; las demás funciones
         // se integran en el flujo al presionar este botón.
+        btnComplete.setVisible(false);
+        btnCancelCheckIn.setVisible(false);
+
         actions.add(btnComplete);
+        actions.add(btnCancelCheckIn);
 
         add(actions, BorderLayout.SOUTH);
+
+        actualizarBotones(false);
 
         // -------------------------------------------
         // EVENTOS
@@ -95,13 +105,14 @@ public class CheckInPanel extends JPanel {
         btnSearchDoc.addActionListener(e -> buscarPorDoc());
 
         btnComplete.addActionListener(e -> completarCheckIn());
+        btnCancelCheckIn.addActionListener(e -> cancelarCheckIn());
 
         // deshabilitar acciones inicialmente
         setAccionesCheckInHabilitadas(false);
     }
 
     // =====================================================
-    //  MÉTODOS PRINCIPALES
+    // MÉTODOS PRINCIPALES
     // =====================================================
 
     private void buscarPorPNR() {
@@ -126,7 +137,8 @@ public class CheckInPanel extends JPanel {
         String doc = txtDoc.getText().trim();
 
         if (doc.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Ingrese documento", "Campo Requerido", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ingrese documento", "Campo Requerido",
+                    JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -157,8 +169,8 @@ public class CheckInPanel extends JPanel {
             sb.append("Pasajero: ").append(currentReservation.getPassenger().getFirstName()).append("\n");
             sb.append("Documento: ").append(
                     currentReservation.getPassenger().getDocumentType() + " " +
-                    currentReservation.getPassenger().getDocumentNumber()
-            ).append("\n");
+                            currentReservation.getPassenger().getDocumentNumber())
+                    .append("\n");
 
             sb.append("Email: ").append(currentReservation.getPassenger().getEmail()).append("\n");
         }
@@ -168,7 +180,7 @@ public class CheckInPanel extends JPanel {
 
         txtInfo.setText(sb.toString());
 
-        setAccionesCheckInHabilitadas(!yaCheckeado);
+        actualizarBotones(yaCheckeado);
     }
 
     private void setAccionesCheckInHabilitadas(boolean enabled) {
@@ -178,19 +190,27 @@ public class CheckInPanel extends JPanel {
         btnComplete.setEnabled(enabled);
     }
 
+    private void actualizarBotones(boolean yaCheckeado) {
+        btnComplete.setVisible(!yaCheckeado);
+        btnComplete.setEnabled(!yaCheckeado);
+
+        btnCancelCheckIn.setVisible(yaCheckeado);
+        btnCancelCheckIn.setEnabled(yaCheckeado);
+    }
 
     // =====================================================
     // COMPLETAR CHECK-IN
     // =====================================================
     private void completarCheckIn() {
 
-        if (currentReservation == null) return;
+        if (currentReservation == null)
+            return;
         String agentStr = JOptionPane.showInputDialog(
                 this,
-                "Ingrese su user_id (agente):"
-        );
+                "Ingrese su user_id (agente):");
 
-        if (agentStr == null || agentStr.isBlank()) return;
+        if (agentStr == null || agentStr.isBlank())
+            return;
 
         int agentId;
         try {
@@ -207,12 +227,15 @@ public class CheckInPanel extends JPanel {
                 return;
             }
 
-            String inputDoc = JOptionPane.showInputDialog(this, "Ingrese número de documento del pasajero para validación:");
-            if (inputDoc == null) return; // cancel
+            String inputDoc = JOptionPane.showInputDialog(this,
+                    "Ingrese número de documento del pasajero para validación:");
+            if (inputDoc == null)
+                return; // cancel
             inputDoc = inputDoc.trim();
             String expected = currentReservation.getPassenger().getDocumentNumber();
             if (expected == null || expected.isBlank() || !expected.equalsIgnoreCase(inputDoc)) {
-                JOptionPane.showMessageDialog(this, "Documento no coincide. Se cancela el proceso.", "Validación", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Documento no coincide. Se cancela el proceso.", "Validación",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -231,25 +254,34 @@ public class CheckInPanel extends JPanel {
             int maxRow = 0;
             for (Seat s : seats) {
                 String code = s.getSeatCode();
-                if (code == null) continue;
+                if (code == null)
+                    continue;
                 int idx = 0;
-                while (idx < code.length() && Character.isDigit(code.charAt(idx))) idx++;
-                if (idx == 0 || idx >= code.length()) continue;
+                while (idx < code.length() && Character.isDigit(code.charAt(idx)))
+                    idx++;
+                if (idx == 0 || idx >= code.length())
+                    continue;
                 String rowStr = code.substring(0, idx);
                 String letters = code.substring(idx);
                 int rowNum = 1;
-                try { rowNum = Integer.parseInt(rowStr); } catch (NumberFormatException ex) { continue; }
+                try {
+                    rowNum = Integer.parseInt(rowStr);
+                } catch (NumberFormatException ex) {
+                    continue;
+                }
                 char letter = letters.charAt(0);
                 lettersOrdered.add(letter);
                 grid.computeIfAbsent(rowNum, k -> new java.util.HashMap<>()).put(letter, s);
-                if (rowNum > maxRow) maxRow = rowNum;
+                if (rowNum > maxRow)
+                    maxRow = rowNum;
             }
 
             int cols = Math.max(1, lettersOrdered.size());
             int rows = Math.max(1, maxRow);
 
             // Dialogo
-            JDialog dlg = new JDialog(SwingUtilities.getWindowAncestor(this), "Seleccionar Asiento", Dialog.ModalityType.APPLICATION_MODAL);
+            JDialog dlg = new JDialog(SwingUtilities.getWindowAncestor(this), "Seleccionar Asiento",
+                    Dialog.ModalityType.APPLICATION_MODAL);
             JPanel panel = new JPanel(new BorderLayout());
 
             // Header with letters
@@ -277,7 +309,7 @@ public class CheckInPanel extends JPanel {
                     Seat s = rowMap.get(letter);
                     if (s != null) {
                         JButton btn = new JButton(s.getSeatCode());
-                        btn.setMargin(new Insets(4,4,4,4));
+                        btn.setMargin(new Insets(4, 4, 4, 4));
                         // color by class
                         String cls = s.getSeatClass() == null ? "" : s.getSeatClass().toLowerCase();
                         if (s.isOccupied()) {
@@ -297,16 +329,19 @@ public class CheckInPanel extends JPanel {
                             btn.setToolTipText("Clase: " + s.getSeatClass());
                             btn.addActionListener(ae -> {
                                 try {
-                                    boolean ok = checkInService.asignarAsientoManual(s.getId(), currentReservation.getId());
+                                    boolean ok = checkInService.asignarAsientoManual(s.getId(),
+                                            currentReservation.getId());
                                     if (ok) {
                                         selectedSeat.set(s.getId());
                                         dlg.dispose();
                                     } else {
-                                        JOptionPane.showMessageDialog(dlg, "No se pudo asignar el asiento (ocupado).", "Asignación", JOptionPane.WARNING_MESSAGE);
+                                        JOptionPane.showMessageDialog(dlg, "No se pudo asignar el asiento (ocupado).",
+                                                "Asignación", JOptionPane.WARNING_MESSAGE);
                                         btn.setEnabled(false);
                                     }
                                 } catch (CheckInException ex) {
-                                    JOptionPane.showMessageDialog(dlg, "Error al asignar asiento: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(dlg, "Error al asignar asiento: " + ex.getMessage(),
+                                            "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                             });
                         }
@@ -330,9 +365,9 @@ public class CheckInPanel extends JPanel {
 
             // Legend panel
             JPanel legend = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 6));
-            legend.add(createLegendItem(new Color(200,255,200), "Economy"));
-            legend.add(createLegendItem(new Color(255,200,100), "Business"));
-            legend.add(createLegendItem(new Color(180,220,255), "First"));
+            legend.add(createLegendItem(new Color(200, 255, 200), "Economy"));
+            legend.add(createLegendItem(new Color(255, 200, 100), "Business"));
+            legend.add(createLegendItem(new Color(180, 220, 255), "First"));
             legend.add(createLegendItem(Color.DARK_GRAY, "Ocupado"));
             panel.add(legend, BorderLayout.SOUTH);
             dlg.getContentPane().add(panel);
@@ -348,36 +383,53 @@ public class CheckInPanel extends JPanel {
 
             // 3) Registrar equipaje (si aplica)
             List<Baggage> bagList = new ArrayList<>();
-            int registerBaggage = JOptionPane.showConfirmDialog(this, "¿Registrar equipaje para este pasajero?", "Equipaje", JOptionPane.YES_NO_OPTION);
+            int registerBaggage = JOptionPane.showConfirmDialog(this, "¿Registrar equipaje para este pasajero?",
+                    "Equipaje", JOptionPane.YES_NO_OPTION);
             if (registerBaggage == JOptionPane.YES_OPTION) {
-                String cntStr = JOptionPane.showInputDialog(this, "¿Cuántas piezas de equipaje desea registrar? (ingrese número)", "1");
+                String cntStr = JOptionPane.showInputDialog(this,
+                        "¿Cuántas piezas de equipaje desea registrar? (ingrese número)", "1");
                 if (cntStr != null && !cntStr.isBlank()) {
                     int cnt = 1;
-                    try { cnt = Integer.parseInt(cntStr); } catch (NumberFormatException ex) { cnt = 1; }
+                    try {
+                        cnt = Integer.parseInt(cntStr);
+                    } catch (NumberFormatException ex) {
+                        cnt = 1;
+                    }
                     for (int i = 0; i < Math.max(1, cnt); i++) {
-                        String weightStr = JOptionPane.showInputDialog(this, "Peso (kg) del equipaje #" + (i+1) + ":", "0.0");
-                        String piecesStr = JOptionPane.showInputDialog(this, "Número de piezas (si aplica) del equipaje #" + (i+1) + ":", "1");
-                        String type = JOptionPane.showInputDialog(this, "Tipo (ej. checked/cabin) del equipaje #" + (i+1) + ":", "checked");
-                        double weight = 0.0; int pieces = 1;
-                        try { weight = Double.parseDouble(weightStr); } catch (Exception ex) { weight = 0.0; }
-                        try { pieces = Integer.parseInt(piecesStr); } catch (Exception ex) { pieces = 1; }
+                        String weightStr = JOptionPane.showInputDialog(this, "Peso (kg) del equipaje #" + (i + 1) + ":",
+                                "0.0");
+                        String piecesStr = JOptionPane.showInputDialog(this,
+                                "Número de piezas (si aplica) del equipaje #" + (i + 1) + ":", "1");
+                        String type = JOptionPane.showInputDialog(this,
+                                "Tipo (ej. checked/cabin) del equipaje #" + (i + 1) + ":", "checked");
+                        double weight = 0.0;
+                        int pieces = 1;
+                        try {
+                            weight = Double.parseDouble(weightStr);
+                        } catch (Exception ex) {
+                            weight = 0.0;
+                        }
+                        try {
+                            pieces = Integer.parseInt(piecesStr);
+                        } catch (Exception ex) {
+                            pieces = 1;
+                        }
                         Baggage b = new Baggage();
                         b.setWeight(weight);
                         b.setPieces(pieces);
                         b.setType(type == null ? "checked" : type);
-                        b.setTagCode("TAG-" + System.currentTimeMillis() + "-" + (i+1));
+                        b.setTagCode("TAG-" + System.currentTimeMillis() + "-" + (i + 1));
                         bagList.add(b);
                     }
                 }
             }
 
             // 4) Llamar al servicio para completar el check-in
-                CheckInResult resultado = checkInService.realizarCheckIn(
+            CheckInResult resultado = checkInService.realizarCheckIn(
                     currentReservation,
                     agentId,
                     selectedSeat.get(),
-                    bagList
-            );
+                    bagList);
 
             if (resultado == null) {
                 JOptionPane.showMessageDialog(this, "Error: No se pudo completar el check-in.");
@@ -410,32 +462,86 @@ public class CheckInPanel extends JPanel {
                         try {
                             Files.copy(generatedPdf.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             JOptionPane.showMessageDialog(this, "PDF guardado en:\n" + dest.getAbsolutePath());
-                            try { Desktop.getDesktop().open(dest); } catch (Exception openEx) { /* ignore */ }
+                            try {
+                                Desktop.getDesktop().open(dest);
+                            } catch (Exception openEx) {
+                                /* ignore */ }
                         } catch (Exception copyEx) {
                             copyEx.printStackTrace();
-                            JOptionPane.showMessageDialog(this, "Error al guardar PDF: " + copyEx.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                            try { Desktop.getDesktop().open(generatedPdf); } catch (Exception openEx) { /* ignore */ }
+                            JOptionPane.showMessageDialog(this, "Error al guardar PDF: " + copyEx.getMessage(), "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                            try {
+                                Desktop.getDesktop().open(generatedPdf);
+                            } catch (Exception openEx) {
+                                /* ignore */ }
                         }
                     } else {
                         // Si cancela, intentar abrir desde ubicación por defecto
-                        try { Desktop.getDesktop().open(generatedPdf); } catch (Exception openEx) { /* ignore */ }
+                        try {
+                            Desktop.getDesktop().open(generatedPdf);
+                        } catch (Exception openEx) {
+                            /* ignore */ }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Advertencia: PDF no encontrado en:\n" + pdfPath, "Aviso", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Advertencia: PDF no encontrado en:\n" + pdfPath, "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
                 }
             }
 
             mostrarReserva();
         } catch (CheckInException e) {
-            JOptionPane.showMessageDialog(this, "Error en check-in: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error en check-in: " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
 
+    private void cancelarCheckIn() {
+        if (currentReservation == null)
+            return;
 
+        String agentStr = JOptionPane.showInputDialog(
+                this,
+                "Ingrese su user_id (agente) para confirmar cancelación:");
+
+        if (agentStr == null || agentStr.isBlank())
+            return;
+
+        int agentId;
+        try {
+            agentId = Integer.parseInt(agentStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "ID inválido");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "¿Está seguro de cancelar el check-in?\nEsto liberará el asiento y revertirá la reserva.",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm != JOptionPane.YES_OPTION)
+            return;
+
+        try {
+            checkInService.cancelarCheckIn(currentReservation.getId(), agentId);
+            JOptionPane.showMessageDialog(this, "Check-in cancelado exitosamente");
+
+            // volver a mostrar la reserva con estado actualizado
+            currentReservation = checkInService.buscarReservaPorPNR(currentReservation.getPnr());
+            mostrarReserva();
+
+        } catch (CheckInException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error cancelando check-in: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     // Helper para crear item de leyenda (color + texto)
     private JComponent createLegendItem(Color color, String text) {
@@ -445,7 +551,7 @@ public class CheckInPanel extends JPanel {
         box.setPreferredSize(new Dimension(16, 16));
         box.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         JLabel lbl = new JLabel(text);
-        lbl.setBorder(BorderFactory.createEmptyBorder(0,4,0,8));
+        lbl.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 8));
         p.add(box);
         p.add(lbl);
         return p;

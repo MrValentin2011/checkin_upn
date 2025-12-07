@@ -1,24 +1,27 @@
-2025-12-04 20:23:42.128 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 21:40:33.675 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 22:51:20.890 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 22:51:39.462 | USER_ID=5 | ACTION=LOGIN | DETAILS=Username=super | Success=true
-2025-12-04 22:51:54.958 | USER_ID=1 | ACTION=LOGIN | DETAILS=Username=agent1 | Success=true
-2025-12-04 22:54:27.427 | USER_ID=1 | ACTION=LOGIN | DETAILS=Username=agent1 | Success=true
-2025-12-04 22:55:28.972 | USER_ID=1 | ACTION=LOGIN | DETAILS=Username=agent1 | Success=true
-2025-12-04 22:55:41.700 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 22:55:55.887 | USER_ID=5 | ACTION=LOGIN | DETAILS=Username=super | Success=false
-2025-12-04 22:56:00.448 | USER_ID=5 | ACTION=LOGIN | DETAILS=Username=super | Success=false
-2025-12-04 22:56:12.224 | USER_ID=5 | ACTION=LOGIN | DETAILS=Username=super | Success=true
-2025-12-04 22:56:29.463 | USER_ID=1 | ACTION=LOGIN | DETAILS=Username=agent1 | Success=true
-2025-12-04 22:59:53.462 | USER_ID=1 | ACTION=LOGIN | DETAILS=Username=agent1 | Success=true
-2025-12-04 23:00:04.697 | USER_ID=5 | ACTION=LOGIN | DETAILS=Username=super | Success=true
-2025-12-04 23:00:59.384 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 23:05:22.790 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 23:16:51.477 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 23:19:46.688 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 23:21:06.578 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 23:23:00.716 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 23:42:16.769 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 23:43:14.761 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 23:50:09.202 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
-2025-12-04 23:51:50.932 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 17:41:42.020 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 17:45:02.002 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 17:51:19.048 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 18:09:23.799 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 18:17:53.874 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 18:24:42.898 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 18:26:11.817 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 18:32:36.095 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 18:43:04.940 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 18:43:31.539 | USER_ID=2 | ACTION=CHECKIN_COMPLETED | DETAILS=ReservationID=1025 | PNR=PNR1765063962773 | SeatID=200
+2025-12-06 18:57:59.322 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 18:58:22.552 | USER_ID=2 | ACTION=CHECKIN_CANCELLED | DETAILS=ReservationID=1025 | Check-in cancelado por el agente.
+2025-12-06 18:59:24.981 | USER_ID=2 | ACTION=CHECKIN_COMPLETED | DETAILS=ReservationID=1025 | PNR=PNR1765063962773 | SeatID=205
+2025-12-06 19:01:34.563 | USER_ID=1 | ACTION=CHECKIN_CANCELLED | DETAILS=ReservationID=1025 | Check-in cancelado por el agente.
+2025-12-06 19:09:43.856 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 19:31:46.357 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 19:36:36.497 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 19:37:07.085 | USER_ID=2 | ACTION=CHECKIN_COMPLETED | DETAILS=ReservationID=1025 | PNR=PNR1765063962773 | SeatID=200
+2025-12-06 19:37:23.406 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 19:46:54.915 | USER_ID=1 | ACTION=LOGIN | DETAILS=Username=agent1 | Success=true
+2025-12-06 19:47:07.332 | USER_ID=5 | ACTION=LOGIN | DETAILS=Username=super | Success=true
+2025-12-06 20:05:25.777 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 20:14:05.360 | USER_ID=1 | ACTION=LOGIN | DETAILS=Username=agent1 | Success=true
+2025-12-06 20:14:22.901 | USER_ID=5 | ACTION=LOGIN | DETAILS=Username=super | Success=true
+2025-12-06 20:14:33.680 | USER_ID=2 | ACTION=LOGIN | DETAILS=Username=admin | Success=true
+2025-12-06 20:16:45.765 | USER_ID=2 | ACTION=CHECKIN_COMPLETED | DETAILS=ReservationID=1026 | PNR=PNR1765070123994 | SeatID=12
+2025-12-06 20:17:54.987 | USER_ID=2 | ACTION=CHECKIN_CANCELLED | DETAILS=ReservationID=1026 | Check-in cancelado por el agente.

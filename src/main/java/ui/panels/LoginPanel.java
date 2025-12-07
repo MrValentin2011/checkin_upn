@@ -94,6 +94,7 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(15, 0, 0, 0); // Padding superior
         formPanel.add(btnLogin, gbc);
 
+        /* 
         // --- 6. Link de recuperación de contraseña ---
         JButton btnForgotPassword = new JButton("¿Olvidaste tu contraseña?");
         btnForgotPassword.setContentAreaFilled(false);
@@ -122,11 +123,15 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(5, 0, 0, 0);
         formPanel.add(btnResetWithToken, gbc);
 
+        */
+
         // --- ACCIONES (Listeners) ---
         btnLogin.addActionListener(e -> login());
+        /* 
         btnForgotPassword.addActionListener(e -> openPasswordRecovery());
         btnResetWithToken.addActionListener(e -> openPasswordReset());
-        
+        */
+       
         // BONUS: Permitir login con "Enter" en el campo de contraseña
         txtPass.addActionListener(e -> login());
 

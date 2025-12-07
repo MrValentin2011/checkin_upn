@@ -3,8 +3,7 @@ package service.impl;
 import config.db.DBConnection;
 import dao.impl.*;
 import model.*;
-import model.Baggage;
-import dao.impl.BaggageDao;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.QRGenerator;
@@ -24,7 +23,7 @@ import java.util.List;
  */
 public class CheckInService {
     private static final Logger logger = LoggerFactory.getLogger(CheckInService.class);
-    
+
     private final ReservationDao reservationDao = new ReservationDao();
     private final PassengerDao passengerDao = new PassengerDao();
     private final SeatDao seatDao = new SeatDao();
@@ -108,7 +107,8 @@ public class CheckInService {
     }
 
     /**
-     * Devuelve todos los asientos del vuelo (ocupados y libres) para mostrar mapa visual.
+     * Devuelve todos los asientos del vuelo (ocupados y libres) para mostrar mapa
+     * visual.
      */
     public List<Seat> listarTodosAsientosPorVuelo(int flightId) {
         List<Seat> seats = seatDao.listSeatsByFlight(flightId);
@@ -158,7 +158,8 @@ public class CheckInService {
     /**
      * Realiza el check-in completo con transacción ACID.
      */
-    public CheckInResult realizarCheckIn(Reservation reservation, int agentUserId, Integer seatId, java.util.List<Baggage> baggageList) 
+    public CheckInResult realizarCheckIn(Reservation reservation, int agentUserId, Integer seatId,
+            java.util.List<Baggage> baggageList)
             throws CheckInException {
         if (reservation == null) {
             throw new CheckInException("Reservación no válida", "INVALID_RESERVATION");
@@ -176,8 +177,10 @@ public class CheckInService {
                 throw new CheckInException("Documento del pasajero inválido", "INVALID_DOCUMENT");
             }
 
-            // Asignar asiento: si el seatId viene null, asignación automática; si viene no null
-            // asumimos que la asignación manual ya se realizó por la UI (evitamos doble asignación).
+            // Asignar asiento: si el seatId viene null, asignación automática; si viene no
+            // null
+            // asumimos que la asignación manual ya se realizó por la UI (evitamos doble
+            // asignación).
             Integer assignedSeatId = seatId;
             if (assignedSeatId == null) {
                 assignedSeatId = asignarAsientoAutomatico(reservation.getFlightId(), reservation.getId());
@@ -198,13 +201,24 @@ public class CheckInService {
                 throw new CheckInException("Agente no encontrado", "AGENT_NOT_FOUND");
             }
 
-            logger.info("Intentando insertar check-in: ReservationID={}, AgentID={}, SeatID={}, BoardingCode={}", 
-                reservation.getId(), agentUserId, assignedSeatId, boardingCode);
+            logger.info("Intentando insertar check-in: ReservationID={}, AgentID={}, SeatID={}, BoardingCode={}",
+                    reservation.getId(), agentUserId, assignedSeatId, boardingCode);
             int checkinId = checkInDao.insert(reservation.getId(), agentUserId, assignedSeatId, boardingCode);
             if (checkinId <= 0) {
                 logger.error("Insert retornó: {}", checkinId);
                 throw new CheckInException("Error al registrar check-in", "CHECKIN_INSERT_FAILED");
             }
+
+            // ACTUALIZAR ESTADO DE RESERVACIÓN
+            boolean updated = reservationDao.updateStatus(reservation.getId(), "Checked-in");
+            if (!updated) {
+                logger.error("No se pudo actualizar el estado de la reserva {}", reservation.getId());
+                throw new CheckInException("No se pudo actualizar el estado de la reserva",
+                        "RESERVATION_STATUS_UPDATE_FAILED");
+            }
+
+            reservation.setStatus("Checked-in"); // para reflejar en la UI
+            logger.info("Estado de reserva actualizado a 'Checked-in' para reservation_id={}", reservation.getId());
 
             // Generar QR
             File qrFile = QRGenerator.generateQRCode("BP:" + boardingCode, "qr_bp_" + boardingCode + ".png");
@@ -238,7 +252,8 @@ public class CheckInService {
 
             // Registrar en auditoría
             auditService.logCheckIn(agentUserId, reservation.getId(), reservation.getPnr(), assignedSeatId);
-            logger.info("Check-in completado exitosamente: CheckInID={}, ReservationID={}", checkinId, reservation.getId());
+            logger.info("Check-in completado exitosamente: CheckInID={}, ReservationID={}", checkinId,
+                    reservation.getId());
 
             return new CheckInResult(checkinId, pdfPath, boardingCode, seatCode, totalBaggageCharge);
 
@@ -256,10 +271,11 @@ public class CheckInService {
      * Obtiene código de asiento de forma segura.
      */
     private String fetchSeatCode(Integer seatId) throws CheckInException {
-        if (seatId == null) return null;
+        if (seatId == null)
+            return null;
         String sql = "SELECT seat_code FROM Seats WHERE seat_id = ?";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, seatId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -273,4 +289,78 @@ public class CheckInService {
         }
         return null;
     }
+
+    /**
+     * CANCELAR CHECK-IN
+     */
+    public void cancelarCheckIn(int reservationId, int agentUserId) throws CheckInException {
+    String sqlFind = "SELECT checkin_id, seat_id FROM CheckIns WHERE reservation_id = ? AND status = 'Checked-in'";
+    String sqlDeleteBaggage = "DELETE FROM Baggage WHERE checkin_id = ?";
+    String sqlDeleteCheckIn = "DELETE FROM CheckIns WHERE checkin_id = ?";
+    String sqlFreeSeat = "UPDATE Seats SET occupied = 0, reservation_id = NULL WHERE seat_id = ?";
+    String sqlUpdateReservation = "UPDATE Reservations SET status = 'Booked' WHERE reservation_id = ?";
+
+    try (Connection conn = DBConnection.getConnection()) {
+
+        conn.setAutoCommit(false);
+        conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+
+        Integer checkInId = null;
+        Integer seatId = null;
+
+        // 1. Buscar el check-in
+        try (PreparedStatement ps = conn.prepareStatement(sqlFind)) {
+            ps.setInt(1, reservationId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    checkInId = rs.getInt("checkin_id");
+                    seatId = rs.getObject("seat_id") != null ? rs.getInt("seat_id") : null;
+                }
+            }
+        }
+
+        if (checkInId == null) {
+            conn.rollback();
+            throw new CheckInException("No existe check-in para esta reserva", "CHECKIN_NOT_FOUND");
+        }
+
+        // 2. Eliminar equipaje vinculado
+        try (PreparedStatement ps = conn.prepareStatement(sqlDeleteBaggage)) {
+            ps.setInt(1, checkInId);
+            ps.executeUpdate();
+        }
+
+        // 3. Eliminar registro de check-in
+        try (PreparedStatement ps = conn.prepareStatement(sqlDeleteCheckIn)) {
+            ps.setInt(1, checkInId);
+            ps.executeUpdate();
+        }
+
+        // 4. Liberar asiento
+        if (seatId != null) {
+            try (PreparedStatement ps = conn.prepareStatement(sqlFreeSeat)) {
+                ps.setInt(1, seatId);
+                ps.executeUpdate();
+            }
+        }
+
+        // 5. Actualizar estado de la reserva
+        try (PreparedStatement ps = conn.prepareStatement(sqlUpdateReservation)) {
+            ps.setInt(1, reservationId);
+            ps.executeUpdate();
+        }
+
+        // 6. Auditoría
+        auditService.logCheckInCancellation(agentUserId, reservationId);
+
+        conn.commit();
+        logger.info("Check-in cancelado correctamente. ReservationID={}", reservationId);
+
+    } catch (Exception ex) {
+        logger.error("Error cancelando check-in", ex);
+        throw new CheckInException("Error cancelando check-in: " + ex.getMessage(), "CHECKIN_CANCEL_ERROR");
+    }
+}
+
+
 }
